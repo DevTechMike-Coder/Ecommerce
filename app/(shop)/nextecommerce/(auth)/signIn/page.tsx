@@ -41,9 +41,11 @@ export default function SignIn() {
               </div>
 
               <div className="flex items-center gap-2 m-4">
-                <Separator />
-                <p className="tracking-wider">OR</p>
-                <Separator />
+                <Separator className="flex-1" />
+                <p className="text-muted-foreground text-sm tracking-widest uppercase">
+                  OR
+                </p>
+                <Separator className="flex-1" />
               </div>
 
               <div className="flex items-center gap-2.5">
@@ -68,10 +70,15 @@ export default function SignIn() {
               </div>
             </form>
 
-            <div className="flex items-center justify-center mt-4">
-              <p className="text-sm">
-                Dont have an account?{" "}
-                <Link href="/nextecommerce/signUp">Sign Up</Link>
+            <div className="flex items-center justify-center mt-6">
+              <p className="text-sm text-muted-foreground">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/nextecommerce/signUp"
+                  className="text-primary font-medium hover:underline transition-colors"
+                >
+                  Sign Up
+                </Link>
               </p>
             </div>
           </CardContent>

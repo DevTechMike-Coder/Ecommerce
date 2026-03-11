@@ -59,7 +59,10 @@ export default function SignUp() {
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password">Password</Label>
 
-                      <Link href="/nextecommerce/forgotPassword" className="text-sm text-muted-foreground">
+                      <Link
+                        href="/nextecommerce/forgotPassword"
+                        className="text-sm text-muted-foreground"
+                      >
                         Forgot Password?
                       </Link>
                     </div>
@@ -74,9 +77,11 @@ export default function SignUp() {
                 </div>
 
                 <div className="flex items-center gap-2 m-4">
-                  <Separator />
-                  <p className="tracking-wider">OR</p>
-                  <Separator />
+                  <Separator className="flex-1" />
+                  <p className="text-muted-foreground text-sm tracking-widest uppercase">
+                    OR
+                  </p>
+                  <Separator className="flex-1" />
                 </div>
 
                 <div className="flex items-center gap-2.5">
