@@ -47,7 +47,7 @@ export default function SignIn() {
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-3">
-                <Button variant="outline" className="w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
+                <Button variant="outline" className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
                   <Image
                     src="/assets/icons/google_2702602.png"
                     alt="google"
@@ -56,7 +56,7 @@ export default function SignIn() {
                   />
                   <span className="font-semibold">Google</span>
                 </Button>
-                <Button variant="outline" className="w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
+                <Button variant="outline" className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
                   <Image
                     src="/assets/icons/github_1051326.png"
                     alt="github"
