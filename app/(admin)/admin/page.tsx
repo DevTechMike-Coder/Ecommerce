@@ -2,29 +2,25 @@ export default function Admin() {
   return (
     <main className="px-10">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-4xl font-bold tracking-tight uppercase">Dashboard</h1>
       </div>
 
-      <div className="flex items-center gap-4 pt-10 px-10">
-        <div className="border border-gray-400 p-4 w-50 rounded-2xl">
-          <h1 className="text-xl font-bold tracking-tight">Revenue</h1>
-
-          <p className="text-lg font-semibold tracking-wide">$0000.0000</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-10 px-4 md:px-10">
+        <div className="border border-border p-6 rounded-2xl bg-card transition-all hover:shadow-md">
+          <h1 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Revenue</h1>
+          <p className="text-2xl font-bold mt-2">$0000.00</p>
         </div>
-        <div className="border border-gray-400 p-4 w-50 rounded-2xl">
-          <h1 className="text-xl font-bold tracking-tight">Revenue</h1>
-
-          <p>$0000.0000</p>
+        <div className="border border-border p-6 rounded-2xl bg-card transition-all hover:shadow-md">
+          <h1 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sales</h1>
+          <p className="text-2xl font-bold mt-2">+0</p>
         </div>
-        <div className="border border-gray-400 p-4 w-50 rounded-2xl">
-          <h1 className="text-xl font-bold tracking-tight">Revenue</h1>
-
-          <p>$0000.0000</p>
+        <div className="border border-border p-6 rounded-2xl bg-card transition-all hover:shadow-md">
+          <h1 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Customers</h1>
+          <p className="text-2xl font-bold mt-2">0</p>
         </div>
-        <div className="border border-gray-400 p-4 w-50 rounded-2xl">
-          <h1 className="text-xl font-bold tracking-tight">Revenue</h1>
-
-          <p>$0000.0000</p>
+        <div className="border border-border p-6 rounded-2xl bg-card transition-all hover:shadow-md">
+          <h1 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Active Now</h1>
+          <p className="text-2xl font-bold mt-2">0</p>
         </div>
       </div>
     </main>
