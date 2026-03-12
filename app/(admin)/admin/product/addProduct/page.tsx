@@ -7,9 +7,14 @@ import dynamic from "next/dynamic";
 const ImageUpload = dynamic(() => import("@/components/ui/image-upload"), { ssr: false });
 import { useRouter } from "next/navigation";
 
+interface Category {
+  id: string;
+  name: string;
+}
+
 export default function AddProductPage() {
   const router = useRouter();
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState({
     name: "",
@@ -17,6 +22,7 @@ export default function AddProductPage() {
     price: "",
     stock: "",
     categoryId: "",
+    collectionTag: "REGULAR",
     images: [] as string[],
   });
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -253,6 +259,28 @@ export default function AddProductPage() {
                       {c.name}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-sm font-semibold text-neutral-600 uppercase tracking-wider">
+                  Collection Tag
+                </label>
+                <select
+                  required
+                  className="w-full p-4 bg-neutral-50 rounded-2xl border-2 border-transparent focus:border-primary/20 focus:bg-white transition-all outline-none font-medium appearance-none"
+                  value={productData.collectionTag}
+                  aria-label="Collection Tag"
+                  onChange={(e) =>
+                    setProductData({
+                      ...productData,
+                      collectionTag: e.target.value,
+                    })
+                  }
+                >
+                  <option value="REGULAR">Regular</option>
+                  <option value="LATEST">Latest Collection</option>
+                  <option value="BESTSELLER">Bestseller</option>
                 </select>
               </div>
 

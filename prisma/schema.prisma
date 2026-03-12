@@ -49,6 +49,7 @@ model Product {
   images      String[]    // Array of image URLs
   stock       Int         @default(0)
   categoryId  String
+  collectionTag String      @default("REGULAR") // REGULAR, LATEST, BESTSELLER
   category    Category    @relation(fields: [categoryId], references: [id])
   orderItems  OrderItem[]
   createdAt   DateTime    @default(now())

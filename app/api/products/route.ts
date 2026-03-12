@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const { name, description, price, stock, categoryId, images } = await request.json();
+    const { name, description, price, stock, categoryId, images, collectionTag } = await request.json();
 
     if (!name || !price || !categoryId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -31,16 +31,18 @@ export async function POST(request: Request) {
       data: {
         name,
         description,
-        price,
+        price: parseFloat(price) || 0,
         stock: parseInt(stock) || 0,
         categoryId,
         images: images || [],
+        collectionTag: collectionTag || "REGULAR",
       }
     });
 
     return NextResponse.json(product, { status: 201 });
-  } catch (error: any) {
-    console.error("[PRODUCTS_POST]", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    console.error("[PRODUCTS_POST] ERROR:", err.message, err.stack);
+    return NextResponse.json({ message: "Internal Server Error", details: err.message }, { status: 500 });
   }
 }
