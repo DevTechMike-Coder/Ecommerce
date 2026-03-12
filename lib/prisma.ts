@@ -1,18 +1,16 @@
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-const globalForPrisma = global as unknown as {
-  prisma: PrismaClient | undefined;
-  pool: Pool | undefined;
-};
-
-const pool = globalForPrisma.pool || new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-
-export const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-  globalForPrisma.pool = pool;
+// Add prisma to the NodeJS global type
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
 }
+
+// Check if a Prisma instance already exists on the global object
+// to reuse it, otherwise create a new one
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  })
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
