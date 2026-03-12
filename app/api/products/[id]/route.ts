@@ -11,19 +11,29 @@ async function isAdmin() {
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
-  const body = await request.json();
-  const product = await prisma.product.update({
-    where: { id },
-    data: body,
-  });
-  return NextResponse.json(product);
+  try {
+    const { id } = await params;
+    const body = await request.json();
+    const product = await prisma.product.update({
+      where: { id },
+      data: body,
+    });
+    return NextResponse.json(product);
+  } catch (error) {
+    console.error("[PRODUCT_PATCH]", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
-  await prisma.product.delete({ where: { id } });
-  return new NextResponse(null, { status: 204 });
+  try {
+    const { id } = await params;
+    await prisma.product.delete({ where: { id } });
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error("[PRODUCT_DELETE]", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

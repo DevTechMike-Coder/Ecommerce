@@ -6,15 +6,21 @@ export default function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      // Get the current scroll position
-      const currentScroll = window.scrollY;
-      // Calculate total scrollable height
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      
-      if (totalHeight > 0) {
-        const percentage = (currentScroll / totalHeight) * 100;
-        setScrollProgress(percentage);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScroll = window.scrollY;
+          const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+          
+          if (totalHeight > 0) {
+            const percentage = (currentScroll / totalHeight) * 100;
+            setScrollProgress(percentage);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 

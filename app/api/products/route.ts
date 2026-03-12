@@ -20,18 +20,27 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { name, description, price, stock, categoryId, images } = await request.json();
+  try {
+    const { name, description, price, stock, categoryId, images } = await request.json();
 
-  const product = await prisma.product.create({
-    data: {
-      name,
-      description,
-      price,
-      stock: parseInt(stock),
-      categoryId,
-      images: images || [],
+    if (!name || !price || !categoryId) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
-  });
 
-  return NextResponse.json(product, { status: 201 });
+    const product = await prisma.product.create({
+      data: {
+        name,
+        description,
+        price,
+        stock: parseInt(stock) || 0,
+        categoryId,
+        images: images || [],
+      }
+    });
+
+    return NextResponse.json(product, { status: 201 });
+  } catch (error: any) {
+    console.error("[PRODUCTS_POST]", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

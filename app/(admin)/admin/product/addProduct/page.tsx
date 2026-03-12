@@ -1,16 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  PackagePlus,
-  Info,
-  DollarSign,
-  Layers,
-  Box,
-} from "lucide-react";
+import { ChevronLeft, PackagePlus, Info, DollarSign, Layers, Box } from "lucide-react";
 import Link from "next/link";
-import ImageUpload from "@/components/ui/image-upload";
+import dynamic from "next/dynamic";
+const ImageUpload = dynamic(() => import("@/components/ui/image-upload"), { ssr: false });
 import { useRouter } from "next/navigation";
 
 export default function AddProductPage() {
@@ -25,6 +19,8 @@ export default function AddProductPage() {
     categoryId: "",
     images: [] as string[],
   });
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [addingCategory, setAddingCategory] = useState(false);
 
   useEffect(() => {
     fetch("/api/categories")
@@ -53,6 +49,32 @@ export default function AddProductPage() {
       alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const onAddCategory = async () => {
+    if (!newCategoryName.trim()) return;
+    setAddingCategory(true);
+    try {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategoryName }),
+      });
+      if (res.ok) {
+        const newCat = await res.json();
+        setCategories([...categories, newCat]);
+        setProductData({ ...productData, categoryId: newCat.id });
+        setNewCategoryName("");
+      } else {
+        const error = await res.json();
+        alert(`Error: ${error.error || "Failed to add category"}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add category");
+    } finally {
+      setAddingCategory(false);
     }
   };
 
@@ -232,6 +254,29 @@ export default function AddProductPage() {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t">
+                <label className="block text-sm font-semibold text-neutral-600 uppercase tracking-wider">
+                  Add New Category
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    className="flex-1 p-3 bg-neutral-50 rounded-xl border border-transparent focus:border-primary/20 outline-none text-sm"
+                    placeholder="Category name"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={onAddCategory}
+                    disabled={addingCategory}
+                    className="rounded-xl px-4"
+                  >
+                    {addingCategory ? "..." : "Add"}
+                  </Button>
+                </div>
               </div>
 
               <div className="pt-4 border-t">
