@@ -48,7 +48,7 @@ export default function AddProductPage() {
         router.push("/admin/product");
       } else {
         const error = await res.json();
-        alert(`Error: ${error.message}`);
+        alert(`Error: ${error.message || error.error || "Something went wrong"}`);
       }
     } catch (error) {
       console.error(error);
