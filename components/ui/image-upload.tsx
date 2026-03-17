@@ -42,6 +42,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
+      {/* 
+        NOTE: You may see a 'net::ERR_BLOCKED_BY_CLIENT' error in the console for 'rollbar.min.js'.
+        This is caused by ad-blockers blocking Cloudinary's internal telemetry/tracking script.
+        This is expected behavior and does not affect the functionality of the upload widget.
+      */}
       <CldUploadWidget onUpload={onUpload} uploadPreset="Ecommerce">
         {({ open }) => {
           const onClick = () => {
