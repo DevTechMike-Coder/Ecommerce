@@ -1,8 +1,8 @@
-import { User2, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { UserAccountNav } from "./UserAccountNav";
 
 export default async function NavBar() {
   const session = await auth.api.getSession({
@@ -26,17 +26,7 @@ export default async function NavBar() {
 
       <div className="flex items-center gap-4">
         {user ? (
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 bg-secondary/50 px-3 py-1.5 rounded-full border border-border/50 hover:bg-secondary/80 transition-colors">
-              <p className="text-xs font-medium">{user.name}</p>
-              <User2 size={16} className="text-muted-foreground" />
-            </div>
-            {user.role === "ADMIN" && (
-              <Link href="/admin" className="text-xs font-bold uppercase tracking-widest text-primary hover:underline">
-                Admin
-              </Link>
-            )}
-          </div>
+          <UserAccountNav user={user} />
         ) : (
           <Button
             variant="outline"

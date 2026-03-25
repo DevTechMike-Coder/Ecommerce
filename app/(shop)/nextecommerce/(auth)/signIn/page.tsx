@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,10 +11,42 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
+      callbackURL: "/",
+    });
+    setLoading(false);
+    if (error) {
+      alert(error.message || "Something went wrong");
+    } else {
+      router.push("/");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
   return (
     <main className="pt-10 md:pt-32 pb-20 px-4">
       <div className="flex items-center justify-center">
@@ -22,7 +56,7 @@ export default function SignIn() {
             <CardDescription className="text-muted-foreground">Access your account to continue shopping</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 pb-8">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSignIn}>
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-semibold tracking-wide uppercase">Email Address</Label>
                 <Input
@@ -31,11 +65,28 @@ export default function SignIn() {
                   placeholder="name@example.com"
                   className="rounded-xl border-border/60 bg-secondary/20 focus:bg-background transition-all"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
-              <Button type="submit" className="w-full rounded-xl py-6 text-lg font-bold shadow-lg hover:scale-[1.02] transition-transform">
-                Sign In
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password" title="password" className="text-sm font-semibold tracking-wide uppercase">Password</Label>
+                </div>
+                <Input 
+                  id="password"
+                  type="password" 
+                  placeholder="••••••••" 
+                  className="rounded-xl border-border/60 bg-secondary/20 focus:bg-background transition-all"
+                  required 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <Button type="submit" disabled={loading} className="w-full rounded-xl py-6 text-lg font-bold shadow-lg hover:scale-[1.02] transition-transform">
+                {loading ? <Loader2 className="animate-spin" /> : "Sign In"}
               </Button>
 
               <div className="flex items-center gap-4 py-2">
@@ -47,7 +98,11 @@ export default function SignIn() {
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-3">
-                <Button variant="outline" className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
+                <Button 
+                  variant="outline" 
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
                   <Image
                     src="/assets/icons/google_2702602.png"
                     alt="google"
@@ -56,14 +111,14 @@ export default function SignIn() {
                   />
                   <span className="font-semibold">Google</span>
                 </Button>
-                <Button variant="outline" className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
+                <Button variant="outline" type="button" className="flex-1 w-full rounded-xl py-6 flex items-center justify-center gap-3 border-border/60 hover:bg-secondary/40 transition-all">
                   <Image
-                    src="/assets/icons/github_1051326.png"
-                    alt="github"
+                    src="/assets/icons/facebook_3128304.png"
+                    alt="facebook"
                     width={20}
                     height={20}
                   />
-                  <span className="font-semibold">Github</span>
+                  <span className="font-semibold">Facebook</span>
                 </Button>
               </div>
             </form>

@@ -9,7 +9,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  // ADD THIS BLOCK:
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
   user: {
     additionalFields: {
       role: {
