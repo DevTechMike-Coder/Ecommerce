@@ -18,7 +18,7 @@ export default async function NavBar() {
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-xl">N</span>
           </div>
-          <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70">
+          <h1 className="hidden min-[360px]:block text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70">
             Next Ecommerce
           </h1>
         </Link>

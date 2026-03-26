@@ -133,7 +133,7 @@ export default function ProductPage() {
                     <p className="font-bold text-neutral-500">{product.stock} units</p>
                   </td>
                   <td className="px-8 py-6">
-                    <div className="flex items-center gap-2 transition-all opacity-0 group-hover:opacity-100">
+                    <div className="flex items-center gap-2 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100">
                       <Button size="icon" variant="outline" className="rounded-xl hover:bg-neutral-900 hover:text-white transition-all">
                         <Pencil className="w-4 h-4" />
                       </Button>

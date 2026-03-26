@@ -11,24 +11,24 @@ export default function Exclusive() {
           </h2>
         </div>
 
-        <div className="flex items-center gap-4 md:gap-8">
+        <div className="flex items-center gap-3 sm:gap-6 md:gap-8 overflow-x-auto pb-1 shrink-0">
           {[
             { label: "Days", value: "02" },
             { label: "Hours", value: "00" },
             { label: "Minutes", value: "00" },
             { label: "Seconds", value: "00" },
           ].map((unit, index, array) => (
-            <div key={unit.label} className="flex items-center gap-4 md:gap-8">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-5xl font-black tabular-nums tracking-tight">
+            <div key={unit.label} className="flex items-center gap-3 sm:gap-6 md:gap-8">
+              <div className="flex flex-col items-center min-w-[2.5rem]">
+                <span className="text-2xl sm:text-3xl md:text-5xl font-black tabular-nums tracking-tight">
                   {unit.value}
                 </span>
-                <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mt-1">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-bold text-muted-foreground uppercase mt-1 whitespace-nowrap">
                   {unit.label}
                 </span>
               </div>
               {index < array.length - 1 && (
-                <div className="text-2xl md:text-4xl font-light text-primary/30 pb-4">:</div>
+                <div className="text-xl sm:text-2xl md:text-4xl font-light text-primary/30 pb-4">:</div>
               )}
             </div>
           ))}
