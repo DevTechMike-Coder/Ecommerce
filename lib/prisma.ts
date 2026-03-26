@@ -4,19 +4,11 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 const connectionString = process.env.DATABASE_URL;
 
-if (!connectionString) {
-  console.error("DATABASE_URL is not defined in the environment.");
-}
-
-const pool = new Pool({ 
+export const pool = new Pool({ 
   connectionString,
   ssl: {
     rejectUnauthorized: false
   }
-});
-
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle database client', err);
 });
 
 const adapter = new PrismaPg(pool as any);
