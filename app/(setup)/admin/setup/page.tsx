@@ -8,9 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Loader2, ShieldCheck, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import { authClient } from "@/lib/auth-client";
+
 export default function AdminSetupPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [setupComplete, setSetupComplete] = useState<boolean | null>(null);
@@ -29,12 +32,25 @@ export default function AdminSetupPage() {
       const res = await fetch("/api/admin/setup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, secret }),
+        body: JSON.stringify({ email, name, password, secret }),
       });
+
       const data = await res.json();
+      
       if (res.ok) {
-        alert("Success! You are now an administrator.");
-        router.push("/admin/product");
+        // After successful promotion/setup, sign the user in immediately
+        const { error: signInError } = await authClient.signIn.email({
+            email,
+            password,
+        });
+
+        if (signInError) {
+            alert(`Setup successful, but login failed: ${signInError.message || "Please sign in manually."}`);
+            router.push("/nextecommerce/signIn");
+        } else {
+            alert("Success! You are now logged in as administrator.");
+            router.push("/admin/product");
+        }
       } else {
         alert(data.error || "Something went wrong");
       }
@@ -45,6 +61,7 @@ export default function AdminSetupPage() {
       setLoading(false);
     }
   };
+
 
   if (setupComplete === null) {
       return (
@@ -114,7 +131,22 @@ export default function AdminSetupPage() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="password" title="password" className="text-sm font-semibold uppercase tracking-wide">Admin Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                className="rounded-xl bg-secondary/20"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <p className="text-[10px] text-muted-foreground">This will be your account password.</p>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="secret" className="text-sm font-semibold uppercase tracking-wide">Setup Secret</Label>
+
               <Input
                 id="secret"
                 type="password"
