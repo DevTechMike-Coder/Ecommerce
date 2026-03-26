@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { isAdmin } from "@/lib/auth-utils";
 
-async function isAdmin() {
-  if (process.env.NODE_ENV === "development") return true;
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user?.role === "ADMIN";
-}
+// Removed local isAdmin definition
+
 
 export async function GET() {
   const products = await prisma.product.findMany({

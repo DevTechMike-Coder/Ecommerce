@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { isAdmin } from "@/lib/auth-utils";
 
-async function isAdmin() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user?.role === "ADMIN";
-}
+// Removed local isAdmin definition
+
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

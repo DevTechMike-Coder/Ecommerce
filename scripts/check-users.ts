@@ -1,15 +1,21 @@
-import "dotenv/config";
 import { prisma } from "../lib/prisma";
-
-console.log("Using DATABASE_URL:", process.env.DATABASE_URL?.split('@')[1]); // Log host only for security
 
 async function checkUsers() {
   try {
-    const users = await prisma.user.findMany();
-    console.log(`Found ${users.length} users in the database.`);
-    users.forEach(user => {
-      console.log(`- ${user.email} (${user.id})`);
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        role: true
+      }
     });
+    console.log("Current Users in DB:");
+    console.table(users);
+    
+    const adminCount = await prisma.user.count({
+      where: { role: "ADMIN" }
+    });
+    console.log(`Total Admins: ${adminCount}`);
   } catch (error) {
     console.error("Error checking users:", error);
   } finally {
