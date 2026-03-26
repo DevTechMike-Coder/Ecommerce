@@ -29,40 +29,44 @@ export async function POST(request: Request) {
       where: { email }
     });
 
-    let user;
+    let userEmail: string;
     if (!existingUser) {
         // 2. Create the user using better-auth server API (handles hashing)
-        user = await auth.api.signUpEmail({
+        const result = await auth.api.signUpEmail({
             body: {
                 email,
                 name,
                 password,
             }
         });
+        userEmail = result.user.email;
         
         // 3. Promote the newly created user to ADMIN
         await prisma.user.update({
-            where: { email },
+            where: { email: userEmail },
             data: { role: "ADMIN" }
         });
     } else {
         // 4. If user exists, just promote them
-        user = await prisma.user.update({
+        const updatedUser = await prisma.user.update({
             where: { email },
             data: { role: "ADMIN" }
         });
+        userEmail = updatedUser.email;
     }
 
     return NextResponse.json({ 
       message: "Admin setup successful!", 
-      user: { email: user.email, role: "ADMIN" } 
+      user: { email: userEmail, role: "ADMIN" } 
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[ADMIN_SETUP_POST]", error);
-    const errorMessage = error.message || "Internal Server Error";
-    return NextResponse.json({ error: errorMessage }, { status: error.statusCode || 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    const statusCode = (error as any)?.statusCode || 500;
+    return NextResponse.json({ error: errorMessage }, { status: statusCode });
   }
 }
+
 
 
 
