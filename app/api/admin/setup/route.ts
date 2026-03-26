@@ -68,9 +68,10 @@ export async function POST(request: Request) {
 
 export async function GET() {
   // Check if setup is already complete
-  const adminExists = await prisma.user.findFirst({
+  const adminCount = await prisma.user.count({
     where: { role: "ADMIN" }
   });
 
-  return NextResponse.json({ setupComplete: !!adminExists });
+  return NextResponse.json({ adminCount });
 }
+

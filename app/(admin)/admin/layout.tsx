@@ -18,14 +18,11 @@ export default async function NextLayout({
   
   if (!isAuthorized) {
     const adminCount = await getAdminCount();
-    if (adminCount === 0) {
-      // If no admin exists, redirect to the one-time setup page
-      return redirect("/admin/setup");
-    } else {
-      // If an admin already exists, deny access and redirect to public login
-      return redirect("/nextecommerce/signIn");
-    }
+    // Dynamically redirect to signup if no admin exists, otherwise to login
+    return redirect(adminCount === 0 ? "/admin/signup" : "/admin/login");
   }
+
+
 
   return (
     <SidebarProvider>
