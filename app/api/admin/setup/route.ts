@@ -12,10 +12,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Admin already exists. Setup is locked." }, { status: 400 });
     }
 
-    const { email, name } = await request.json();
+    const { email, name, secret } = await request.json();
 
-    if (!email || !name) {
-      return NextResponse.json({ error: "Email and Name are required" }, { status: 400 });
+    if (!email || !name || !secret) {
+      return NextResponse.json({ error: "Email, Name, and Setup Secret are required" }, { status: 400 });
+    }
+
+    // Verify setup secret from environment
+    if (secret !== process.env.SETUP_SECRET) {
+      return NextResponse.json({ error: "Invalid Setup Secret" }, { status: 401 });
     }
 
     // Find the user by email and promote them to ADMIN
@@ -30,6 +35,7 @@ export async function POST(request: Request) {
       user: { email: user.email, role: user.role } 
     });
   } catch (error) {
+
     console.error("[ADMIN_SETUP_POST]", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
