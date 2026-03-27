@@ -25,3 +25,10 @@ export async function getAdminCount() {
   });
 }
 
+/**
+ * Retrieves the current session.
+ */
+export async function getUserSession() {
+  return await auth.api.getSession({ headers: await headers() });
+}
+
