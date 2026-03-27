@@ -23,7 +23,7 @@ export default function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
-        <div className="container mx-auto px-6 flex flex-col items-center text-center space-y-8">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-8">
           <div className="space-y-4 max-w-2xl">
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50 leading-tight">
               A Better Way <br /> to Shop
@@ -55,7 +55,7 @@ export default function Home() {
 
       {/* Policies Section */}
       <section className="w-full py-24 bg-secondary/30 border-y border-border/40">
-        <div className="container mx-auto px-6 space-y-16">
+        <div className="container mx-auto px-4 md:px-6 space-y-16">
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase">
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -107,7 +107,7 @@ export default function Home() {
 
       {/* FAQ Section */}
       <section className="w-full py-24">
-        <div className="container mx-auto px-6 max-w-3xl space-y-12">
+        <div className="container mx-auto px-4 md:px-6 max-w-3xl space-y-12">
           <div className="flex flex-col items-center text-center space-y-4">
             <HelpCircle className="w-10 h-10 text-primary/40" />
             <h2 className="text-3xl font-bold tracking-tight">

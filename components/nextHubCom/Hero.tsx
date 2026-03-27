@@ -2,7 +2,7 @@ import { Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="pt-32 pb-16 px-6">
+    <section className="pt-32 pb-16 px-4 md:px-6">
       <div className="container mx-auto max-w-6xl space-y-12">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">

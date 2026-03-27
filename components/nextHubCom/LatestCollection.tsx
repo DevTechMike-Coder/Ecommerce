@@ -35,7 +35,7 @@ export default function LatestCollection() {
   }, []);
 
   return (
-    <section className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+    <section className="py-24 px-4 md:px-10 max-w-7xl mx-auto">
       <div className="flex flex-col items-center justify-center text-center space-y-4 mb-16">
         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary bg-primary/5 px-4 py-2 rounded-full">
            New Arrivals

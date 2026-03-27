@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 const ImageUpload = dynamic(() => import("@/components/ui/image-upload"), { ssr: false });
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Category {
   id: string;
@@ -44,15 +45,15 @@ export default function AddProductPage() {
         body: JSON.stringify(productData),
       });
       if (res.ok) {
-        alert("Product published successfully! ✨");
+        toast.success("Product published successfully! ✨");
         router.push("/admin/product");
       } else {
         const error = await res.json();
-        alert(`Error: ${error.message || error.error || "Something went wrong"}`);
+        toast.error(`Error: ${error.message || error.error || "Something went wrong"}`);
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -72,13 +73,14 @@ export default function AddProductPage() {
         setCategories([...categories, newCat]);
         setProductData({ ...productData, categoryId: newCat.id });
         setNewCategoryName("");
+        toast.success("Category added successfully");
       } else {
         const error = await res.json();
-        alert(`Error: ${error.error || "Failed to add category"}`);
+        toast.error(`Error: ${error.error || "Failed to add category"}`);
       }
     } catch (error) {
       console.error(error);
-      alert("Failed to add category");
+      toast.error("Failed to add category");
     } finally {
       setAddingCategory(false);
     }

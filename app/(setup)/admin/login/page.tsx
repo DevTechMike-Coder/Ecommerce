@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -42,14 +43,15 @@ export default function AdminLoginPage() {
         });
 
         if (error) {
-            alert(error.message || "Invalid credentials");
+            toast.error(error.message || "Invalid credentials");
         } else {
+            toast.success("Login successful!");
             router.push("/admin/product");
             router.refresh();
         }
     } catch (err) {
         console.error(err);
-        alert("Login failed");
+        toast.error("Login failed");
     } finally {
         setLoading(false);
     }

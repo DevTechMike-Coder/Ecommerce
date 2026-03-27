@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 export default function Footer() {
   return (
     <footer className="w-full pt-20 pb-12 bg-background/60 backdrop-blur-xl border-t border-border/40">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16">
           {/* Brand Section */}
           <div className="md:col-span-5 space-y-6">

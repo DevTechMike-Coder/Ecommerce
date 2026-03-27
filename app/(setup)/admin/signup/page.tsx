@@ -15,6 +15,7 @@ import { Loader2, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function AdminSignupPage() {
   const [email, setEmail] = useState("");
@@ -53,18 +54,18 @@ export default function AdminSignupPage() {
         });
 
         if (signInError) {
-            alert(`Setup successful, but login failed: ${signInError.message || "Please sign in manually."}`);
+            toast.error(`Setup successful, but login failed: ${signInError.message || "Please sign in manually."}`);
             router.push("/admin/login");
         } else {
-            alert("Success! You are now logged in as administrator.");
+            toast.success("Success! You are now logged in as administrator.");
             router.push("/admin/product");
         }
       } else {
-        alert(data.error || "Something went wrong");
+        toast.error(data.error || "Something went wrong");
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to complete setup");
+      toast.error("Failed to complete setup");
     } finally {
       setLoading(false);
     }

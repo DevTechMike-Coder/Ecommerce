@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -34,8 +35,9 @@ export default function SignIn() {
     });
     setLoading(false);
     if (error) {
-      alert(error.message || "Something went wrong");
+      toast.error(error.message || "Something went wrong");
     } else {
+      toast.success("Successfully signed in!");
       router.push("/");
     }
   };
