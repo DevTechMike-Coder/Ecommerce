@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, PackagePlus, Info, DollarSign, Layers, Box, AlertCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert";
+import { ChevronLeft, Pencil, Info, DollarSign, Layers, Box, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const ImageUpload = dynamic(() => import("@/components/ui/image-upload"), { ssr: false });
@@ -25,10 +25,16 @@ interface Category {
   name: string;
 }
 
-export default function AddProductPage() {
+interface EditProductPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default function EditProductPage({ params }: EditProductPageProps) {
+  const { id } = use(params);
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -42,27 +48,66 @@ export default function AddProductPage() {
   const [addingCategory, setAddingCategory] = useState(false);
 
   useEffect(() => {
-    fetch("/api/categories")
-      .then((res) => res.json())
-      .then(setCategories);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const [categoriesRes, productRes] = await Promise.all([
+          fetch("/api/categories"),
+          fetch(`/api/products/${id}`)
+        ]);
+
+        if (categoriesRes.ok) {
+          const categoriesData = await categoriesRes.json();
+          setCategories(categoriesData);
+        }
+
+        if (productRes.ok) {
+          const product = await productRes.json();
+          setProductData({
+            name: product.name,
+            description: product.description,
+            price: product.price.toString(),
+            stock: product.stock.toString(),
+            categoryId: product.categoryId,
+            collectionTag: product.collectionTag,
+            images: product.images,
+          });
+        } else {
+          toast.error("Failed to load product data");
+          router.push("/admin/product");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred while fetching data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, router]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
     if (productData.images.length === 0) {
       toast.error("Please upload at least one image");
-      setLoading(false);
+      setSubmitting(false);
       return;
     }
 
     try {
-      const res = await fetch("/api/products", {
-        method: "POST",
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(productData),
+        body: JSON.stringify({
+          ...productData,
+          price: parseFloat(productData.price),
+          stock: parseInt(productData.stock),
+        }),
       });
+
       if (res.ok) {
-        toast.success("Product published successfully! ✨");
+        toast.success("Product updated successfully! ✨");
         router.push("/admin/product");
       } else {
         const error = await res.json();
@@ -72,7 +117,7 @@ export default function AddProductPage() {
       console.error(error);
       toast.error("Something went wrong. Please try again.");
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -103,9 +148,16 @@ export default function AddProductPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-neutral-50/50 pb-20">
-      {/* Header section with glassmorphism blur */}
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-6xl mx-auto px-4 md:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
@@ -116,16 +168,15 @@ export default function AddProductPage() {
               <ChevronLeft className="w-4 h-4" /> Back to Inventory
             </Link>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight uppercase flex items-center gap-3">
-              <PackagePlus className="w-8 h-8 text-primary" /> Create New
-              Product
+              <Pencil className="w-8 h-8 text-primary" /> Edit Product
             </h1>
           </div>
           <Button
             onClick={onSubmit}
-            disabled={loading}
+            disabled={submitting}
             className="w-full sm:w-auto px-8 py-6 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all font-bold text-lg"
           >
-            {loading ? "Publishing..." : "Publish Product"}
+            {submitting ? "Updating..." : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -135,7 +186,6 @@ export default function AddProductPage() {
           onSubmit={onSubmit}
           className="grid grid-cols-1 lg:grid-cols-3 gap-10"
         >
-          {/* Main Info Column */}
           <div className="lg:col-span-2 space-y-8">
             <section className="bg-white p-8 rounded-[2rem] border shadow-sm space-y-6">
               <div className="flex items-center gap-2 pb-2 border-b">
@@ -205,7 +255,6 @@ export default function AddProductPage() {
             </section>
           </div>
 
-          {/* Pricing & Category Sidebar */}
           <div className="space-y-8">
             <section className="bg-white p-8 rounded-[2rem] border shadow-sm space-y-6 sticky top-32">
               <div className="flex items-center gap-2 pb-2 border-b">

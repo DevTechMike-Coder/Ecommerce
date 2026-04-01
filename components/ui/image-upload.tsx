@@ -47,7 +47,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         This is caused by ad-blockers blocking Cloudinary's internal telemetry/tracking script.
         This is expected behavior and does not affect the functionality of the upload widget.
       */}
-      <CldUploadWidget onUpload={onUpload} uploadPreset="Ecommerce">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="Ecommerce">
         {({ open }) => {
           const onClick = () => {
             open();
