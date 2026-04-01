@@ -535,22 +535,41 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="rounded-[2.5rem] border border-border/50 bg-destructive/10 p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-destructive/20 rounded-2xl text-destructive mt-1">
-                      <AlertCircle className="h-6 w-6" />
+                <div className="relative overflow-hidden rounded-[2.5rem] border border-destructive/20 bg-linear-to-br from-destructive/12 via-destructive/6 to-background p-6 sm:p-8">
+                  <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-destructive/10 blur-3xl" />
+
+                  <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex items-start gap-4">
+                      <div className="mt-1 shrink-0 rounded-2xl border border-destructive/20 bg-destructive/15 p-3 text-destructive shadow-sm">
+                        <AlertCircle className="h-6 w-6" />
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="space-y-2">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-destructive/80">
+                            High Risk
+                          </p>
+                          <h3 className="text-xl font-bold text-destructive sm:text-2xl">
+                            Danger Zone
+                          </h3>
+                          <p className="max-w-2xl text-sm leading-relaxed text-foreground/75 sm:text-base">
+                            Deleting your account is permanent. Your profile,
+                            order history, and saved account data cannot be
+                            recovered after this action.
+                          </p>
+                        </div>
+
+                        <div className="rounded-2xl border border-destructive/15 bg-background/70 px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                          Proceed only if you are certain you no longer need
+                          access to this account.
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-destructive">
-                        Danger Zone
-                      </h3>
-                      <p className="text-muted-foreground mt-1 mb-4">
-                        Once you delete your account, there is no going back.
-                        Please be certain.
-                      </p>
+
+                    <div className="sm:shrink-0">
                       <Button
                         variant="destructive"
-                        className="rounded-full px-8 font-bold"
+                        className="w-full rounded-full px-6 font-bold shadow-lg shadow-destructive/15 sm:w-auto sm:px-8"
                       >
                         Delete Account Permanently
                       </Button>
