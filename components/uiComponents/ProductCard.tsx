@@ -6,6 +6,7 @@ import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 interface ProductCardProps {
   id: string;
@@ -27,10 +28,21 @@ export default function ProductCard({
   const [isHovered, setIsHovered] = useState(false);
   const cart = useCart();
   const router = useRouter();
+  const { data: session } = authClient.useSession();
 
   const onAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!session) {
+      toast.error("Please sign in first", {
+        description: "You need to be logged in to add items to your cart.",
+      });
+      
+      const callbackUrl = encodeURIComponent(window.location.href);
+      router.push(`/nextecommerce/signIn?callbackURL=${callbackUrl}`);
+      return;
+    }
     
     cart.addItem({
       id,
@@ -48,6 +60,19 @@ export default function ProductCard({
   };
 
   const onAddToCartAndRedirect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!session) {
+      toast.error("Please sign in first", {
+        description: "You need to be logged in to add items to your cart.",
+      });
+      
+      const callbackUrl = encodeURIComponent(window.location.href);
+      router.push(`/nextecommerce/signIn?callbackURL=${callbackUrl}`);
+      return;
+    }
+
     onAddToCart(e);
     router.push("/nextecommerce/cart");
   };
