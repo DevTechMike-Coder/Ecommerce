@@ -11,7 +11,7 @@ export const pool = new Pool({
   }
 });
 
-const adapter = new PrismaPg(pool);
+const adapter = new PrismaPg(pool as any);
 
 // Add prisma to the NodeJS global type
 const globalForPrisma = globalThis as unknown as {
