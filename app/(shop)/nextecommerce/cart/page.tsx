@@ -126,7 +126,7 @@ export default function Cart() {
                   <div className="flex min-w-0 flex-1 flex-col gap-4 md:flex-row md:items-start md:justify-between">
                     <div className="min-w-0 space-y-3">
                       <div className="space-y-1">
-                        <h2 className="break-words text-base font-semibold leading-snug">
+                        <h2 className="wrap-break-word text-base font-semibold leading-snug">
                           {item.name}
                         </h2>
                         <p className="text-sm text-muted-foreground">
@@ -221,9 +221,11 @@ export default function Cart() {
             </CardContent>
 
             <CardFooter className="flex-col gap-3">
+              <Link href="/nextecommerce/checkout">
               <Button className="w-full rounded-full" size="lg">
                 Checkout
               </Button>
+              </Link>
 
               <p className="text-center text-xs text-muted-foreground">
                 Shipping and taxes are calculated at checkout.
