@@ -5,6 +5,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import ScrollIndicator from "@/components/uiComponents/ScrollIndicator";
+import PageTransition from "@/components/uiComponents/PageTransition";
 import React from "react";
 import { isAdmin, getAdminCount, getUserSession } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
@@ -57,7 +58,7 @@ export default async function NextLayout({
       <SidebarInset>
         <SidebarTrigger className="m-4" />
         <ScrollIndicator />
-        {children}
+        <PageTransition>{children}</PageTransition>
       </SidebarInset>
     </SidebarProvider>
   );

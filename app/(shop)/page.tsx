@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+
+
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden flex flex-col items-center">
@@ -23,12 +25,13 @@ export default function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
+        {/* Hero Section content revealed by global layout transition */}
         <div className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-8">
           <div className="space-y-4 max-w-2xl">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50 leading-tight">
+            <h1 className="text-4xl md:text-7xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50 leading-tight">
               A Better Way <br /> to Shop
             </h1>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-base md:text-xl max-w-lg mx-auto leading-relaxed">
               Discover curated premium products from world-class brands,
               delivered directly to your doorstep with elegance.
             </p>
@@ -51,6 +54,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
+
       </section>
 
       {/* Policies Section */}

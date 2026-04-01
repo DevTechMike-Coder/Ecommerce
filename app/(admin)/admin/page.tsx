@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Admin() {
   const [stats, setStats] = useState({
@@ -9,6 +10,7 @@ export default function Admin() {
     customerCount: 0,
     productCount: 0,
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
@@ -20,6 +22,8 @@ export default function Admin() {
         }
       } catch (error) {
         console.error("Failed to fetch dashboard stats:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchStats();
@@ -32,22 +36,33 @@ export default function Admin() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-10">
-        <StatCard 
-          title="Revenue" 
-          value={`$${Number(stats.totalRevenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`} 
-        />
-        <StatCard 
-          title="Sales" 
-          value={`+${stats.salesCount}`} 
-        />
-        <StatCard 
-          title="Customers" 
-          value={stats.customerCount} 
-        />
-        <StatCard 
-          title="Stock Level" 
-          value={stats.productCount} 
-        />
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="border border-border p-6 rounded-2xl bg-card">
+              <Skeleton className="h-4 w-24 mb-3 rounded" />
+              <Skeleton className="h-8 w-32 rounded" />
+            </div>
+          ))
+        ) : (
+          <>
+            <StatCard
+              title="Revenue"
+              value={`$${Number(stats.totalRevenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+            />
+            <StatCard
+              title="Sales"
+              value={`+${stats.salesCount}`}
+            />
+            <StatCard
+              title="Customers"
+              value={stats.customerCount}
+            />
+            <StatCard
+              title="Stock Level"
+              value={stats.productCount}
+            />
+          </>
+        )}
       </div>
     </main>
   );

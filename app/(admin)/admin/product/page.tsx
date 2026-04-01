@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Pencil, Trash2, Package, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -107,14 +108,29 @@ export default function ProductPage() {
           </thead>
           <tbody className="divide-y divide-neutral-50">
             {loading ? (
-              <tr>
-                <td
-                  colSpan={6}
-                  className="text-center py-20 text-neutral-400 font-medium"
-                >
-                  Loading products...
-                </td>
-              </tr>
+              Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i} className="border-b border-neutral-50">
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <Skeleton className="w-14 h-14 rounded-2xl" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-32 rounded" />
+                        <Skeleton className="h-3 w-16 rounded" />
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-8 py-6"><Skeleton className="h-4 w-20 rounded" /></td>
+                  <td className="px-8 py-6"><Skeleton className="h-6 w-16 rounded-full" /></td>
+                  <td className="px-8 py-6"><Skeleton className="h-4 w-14 rounded" /></td>
+                  <td className="px-8 py-6"><Skeleton className="h-4 w-16 rounded" /></td>
+                  <td className="px-8 py-6">
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="w-9 h-9 rounded-xl" />
+                      <Skeleton className="w-9 h-9 rounded-xl" />
+                    </div>
+                  </td>
+                </tr>
+              ))
             ) : products.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-8 py-20">

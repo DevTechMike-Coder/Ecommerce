@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ProductCard from "../uiComponents/ProductCard";
+import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 
 interface Product {
@@ -19,16 +20,16 @@ export default function LatestCollection() {
   const [displayLimit, setDisplayLimit] = useState(10);
 
   useEffect(() => {
-    const updateLimit = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setDisplayLimit(1); // Mobile
-      } else if (width < 1024) {
-        setDisplayLimit(4); // Tablet
-      } else {
-        setDisplayLimit(10); // Desktop
-      }
-    };
+      const updateLimit = () => {
+        const width = window.innerWidth;
+        if (width < 640) {
+          setDisplayLimit(2); // Mobile — show 2 products
+        } else if (width < 1024) {
+          setDisplayLimit(4); // Tablet
+        } else {
+          setDisplayLimit(10); // Desktop
+        }
+      };
 
     updateLimit();
     window.addEventListener("resize", updateLimit);
@@ -71,10 +72,14 @@ export default function LatestCollection() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
         {loading
           ? Array.from({ length: displayLimit }).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-4/5 bg-neutral-100 rounded-[2.5rem] animate-pulse"
-              />
+              <div key={i} className="flex flex-col gap-4">
+                <Skeleton className="aspect-4/5 rounded-[2.5rem]" />
+                <div className="px-4 space-y-3">
+                  <Skeleton className="h-3 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-full rounded-lg" />
+                  <Skeleton className="h-5 w-20 rounded-lg" />
+                </div>
+              </div>
             ))
           : products.slice(0, displayLimit).map((product) => (
               <ProductCard
