@@ -42,8 +42,11 @@ export default function LatestCollection() {
         const res = await fetch("/api/products");
         if (res.ok) {
           const data = await res.json();
-          // Keep up to 10 for desktop
-          setProducts(data.slice(0, 10));
+          // Filter products that have the LATEST collection tag
+          const latestProducts = data.filter(
+            (product: Product) => product.collectionTag === "LATEST"
+          );
+          setProducts(latestProducts.slice(0, 10));
         }
       } catch (error) {
         console.error(error);

@@ -22,8 +22,8 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative flex min-h-[calc(100svh-5rem)] w-full flex-col items-center justify-center px-4 pb-16 pt-4 sm:px-6 sm:pt-8 lg:px-8">
         {/* Dynamic Background Elements */}
-        <div className="absolute left-[-4rem] top-[-2rem] h-56 w-56 rounded-full bg-primary/10 blur-[120px] -z-10 animate-pulse sm:h-[22rem] sm:w-[22rem]" />
-        <div className="absolute bottom-[-3rem] right-[-4rem] h-56 w-56 rounded-full bg-primary/5 blur-[120px] -z-10 sm:h-[22rem] sm:w-[22rem]" />
+        <div className="absolute -left-16 -top-8 h-56 w-56 rounded-full bg-primary/10 blur-[120px] -z-10 animate-pulse sm:h-88 sm:w-88" />
+        <div className="absolute -bottom-12 -right-16 h-56 w-56 rounded-full bg-primary/5 blur-[120px] -z-10 sm:h-88 sm:w-88" />
 
         {/* Hero Section content revealed by global layout transition */}
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center space-y-8 text-center">
@@ -127,6 +127,7 @@ export default function Home() {
               collapsible
               defaultValue="shipping"
               className="w-full px-4 sm:px-6"
+              suppressHydrationWarning
             >
               <AccordionItem
                 value="shipping"

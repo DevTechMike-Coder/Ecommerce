@@ -69,7 +69,6 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      tooltip={item.title}
                       className={`
                         group h-11 rounded-xl transition-all duration-300
                         group-data-[collapsible=icon]:h-11 group-data-[collapsible=icon]:w-11
