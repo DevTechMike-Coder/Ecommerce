@@ -5,9 +5,7 @@ import {
   Card, 
   CardContent, 
   CardHeader, 
-  CardTitle,
-  CardDescription,
-  CardFooter
+  CardTitle
 } from "@/components/ui/card";
 import { 
   CheckCircle2, 
@@ -112,7 +110,7 @@ export default function Checkout() {
                     >
                       <Card className={`relative cursor-pointer transition-all duration-200 hover:ring-1 hover:ring-primary/20 ${
                         isSelected 
-                          ? "border-primary bg-primary/[0.02] ring-1 ring-primary/20 shadow-sm" 
+                          ? "border-primary bg-primary/2 ring-1 ring-primary/20 shadow-sm" 
                           : "border-border bg-card shadow-sm"
                       }`}>
                         <CardContent className="flex flex-col items-center text-center p-4 space-y-3">
