@@ -72,15 +72,17 @@ export default function AdminSignupPage() {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen p-4 bg-neutral-50/50">
+    <main className="flex min-h-screen items-center justify-center bg-neutral-50/50 px-4 py-10 sm:px-6">
       <Card className="w-full max-w-md border-border/50 shadow-xl rounded-[2rem] overflow-hidden">
         <CardHeader className="space-y-1 pt-8">
           <div className="flex items-center gap-2 mb-2">
             <ShieldCheck className="w-6 h-6 text-primary" />
             <span className="text-xs font-black tracking-widest uppercase text-primary">Initial Setup</span>
           </div>
-          <CardTitle className="text-3xl font-extrabold tracking-tight uppercase">Admin Registration</CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardTitle className="text-2xl font-extrabold tracking-tight uppercase sm:text-3xl">
+            Admin Registration
+          </CardTitle>
+          <CardDescription className="text-sm text-muted-foreground sm:text-base">
             Register the primary administrator account (one-time operation).
           </CardDescription>
         </CardHeader>
@@ -140,7 +142,7 @@ export default function AdminSignupPage() {
               />
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full rounded-xl py-6 text-lg font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.01]">
+            <Button type="submit" disabled={loading} className="w-full rounded-xl py-6 text-base font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] sm:text-lg">
                 {loading ? <Loader2 className="animate-spin" /> : "Complete Setup"}
             </Button>
           </form>

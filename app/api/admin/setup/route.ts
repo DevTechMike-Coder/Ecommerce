@@ -62,7 +62,13 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     console.error("[ADMIN_SETUP_POST]", error);
     const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
-    const statusCode = (error as any)?.statusCode || 500;
+    const statusCode =
+      typeof error === "object" &&
+      error !== null &&
+      "statusCode" in error &&
+      typeof error.statusCode === "number"
+        ? error.statusCode
+        : 500;
     return NextResponse.json({ error: errorMessage }, { status: statusCode });
   }
 }
@@ -78,4 +84,3 @@ export async function GET() {
 
   return NextResponse.json({ adminCount });
 }
-

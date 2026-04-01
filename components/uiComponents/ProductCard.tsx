@@ -79,7 +79,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="group relative bg-card rounded-[2.5rem] border border-border p-3 transition-all duration-500 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] hover:-translate-y-2"
+      className="group relative flex h-full flex-col rounded-[2.5rem] border border-border bg-card p-3 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -95,7 +95,7 @@ export default function ProductCard({
 
         <button
           aria-label="Add to favorites"
-          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/90 backdrop-blur-md flex items-center justify-center text-muted-foreground hover:text-red-500 transition-all hover:scale-110 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
+          className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/90 text-muted-foreground opacity-100 backdrop-blur-md transition-all hover:scale-110 hover:text-red-500 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100"
         >
           <Heart
             className="w-5 h-5"
@@ -123,25 +123,28 @@ export default function ProductCard({
       </div>
 
       {/* Info */}
-      <div className="px-4 pb-4 space-y-4">
+      <div className="flex flex-1 flex-col justify-between space-y-4 px-4 pb-4">
         <div className="space-y-1">
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
             {category}
           </p>
-          <div className="flex items-start justify-between gap-4">
-            <h3 className="font-bold text-lg text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <h3 className="line-clamp-2 text-base leading-tight font-bold text-foreground transition-colors group-hover:text-primary sm:text-lg">
               {name}
             </h3>
-            <p className="font-black text-xl text-foreground">${price}</p>
+            <p className="text-lg font-black text-foreground sm:text-xl">
+              ${price}
+            </p>
           </div>
         </div>
 
-        <div className="flex items-center justify-end">
-          <button 
+        <div className="flex items-center justify-stretch sm:justify-end">
+          <button
             onClick={onAddToCartAndRedirect}
-            className="w-12 h-12 flex items-center justify-center rounded-full border border-border group/btn transition-colors hover:bg-muted cursor-pointer text-foreground"
+            className="flex h-11 w-full items-center justify-center gap-2 rounded-full border border-border text-foreground transition-colors hover:bg-muted sm:h-12 sm:w-12"
           >
             <ShoppingBag className="w-5 h-5" />
+            <span className="text-sm font-semibold sm:hidden">Add to cart</span>
           </button>
         </div>
       </div>

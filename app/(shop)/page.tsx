@@ -18,34 +18,34 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden flex flex-col items-center">
+    <main className="relative flex min-h-screen w-full flex-col items-center overflow-hidden">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center pt-20">
+      <section className="relative flex min-h-[calc(100svh-5rem)] w-full flex-col items-center justify-center px-4 pb-16 pt-4 sm:px-6 sm:pt-8 lg:px-8">
         {/* Dynamic Background Elements */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] -z-10" />
+        <div className="absolute left-[-4rem] top-[-2rem] h-56 w-56 rounded-full bg-primary/10 blur-[120px] -z-10 animate-pulse sm:h-[22rem] sm:w-[22rem]" />
+        <div className="absolute bottom-[-3rem] right-[-4rem] h-56 w-56 rounded-full bg-primary/5 blur-[120px] -z-10 sm:h-[22rem] sm:w-[22rem]" />
 
         {/* Hero Section content revealed by global layout transition */}
-        <div className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-8">
-          <div className="space-y-4 max-w-2xl">
-            <h1 className="text-4xl md:text-7xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50 leading-tight">
+        <div className="mx-auto flex w-full max-w-5xl flex-col items-center space-y-8 text-center">
+          <div className="max-w-3xl space-y-4">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tighter text-transparent bg-linear-to-b from-foreground to-foreground/50 bg-clip-text sm:text-5xl md:text-6xl lg:text-7xl">
               A Better Way <br /> to Shop
             </h1>
-            <p className="text-muted-foreground text-base md:text-xl max-w-lg mx-auto leading-relaxed">
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
               Discover curated premium products from world-class brands,
               delivered directly to your doorstep with elegance.
             </p>
           </div>
 
-          <div className="pt-4 drop-shadow-2xl">
+          <div className="w-full max-w-sm pt-4 drop-shadow-2xl sm:w-auto sm:max-w-none">
             <Button
               size="lg"
-              className="group relative px-8 py-6 h-auto rounded-full text-lg font-semibold overflow-hidden transition-all duration-300 hover:scale-105"
+              className="group relative h-auto w-full overflow-hidden rounded-full px-8 py-5 text-base font-semibold transition-all duration-300 hover:scale-105 sm:w-auto sm:text-lg"
               asChild
             >
               <Link
                 href="/nextecommerce/nextHub"
-                className="flex items-center gap-3"
+                className="flex items-center justify-center gap-3"
               >
                 <span className="relative z-10">Start Shopping</span>
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -58,22 +58,24 @@ export default function Home() {
       </section>
 
       {/* Policies Section */}
-      <section className="w-full py-24 bg-secondary/30 border-y border-border/40">
-        <div className="container mx-auto px-4 md:px-6 space-y-16">
+      <section className="w-full border-y border-border/40 bg-secondary/30 px-4 py-20 sm:px-6 lg:px-8 md:py-24">
+        <div className="mx-auto w-full max-w-7xl space-y-12 md:space-y-16">
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase">
               <ShieldCheck className="w-3.5 h-3.5" />
               Commitment
             </div>
-            <h2 className="text-4xl font-bold tracking-tight">Our Policies</h2>
-            <p className="text-muted-foreground max-w-md">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Our Policies
+            </h2>
+            <p className="max-w-xl text-muted-foreground">
               We stand by our quality and service with industry-leading policies
               designed for your peace of mind.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group p-8 rounded-3xl bg-background/40 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 lg:gap-8">
+            <div className="group rounded-3xl border border-border/50 bg-background/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 sm:p-8">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
@@ -84,7 +86,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="group p-8 rounded-3xl bg-background/40 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="group rounded-3xl border border-border/50 bg-background/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 sm:p-8">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Truck className="w-6 h-6 text-primary" />
               </div>
@@ -95,7 +97,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="group p-8 rounded-3xl bg-background/40 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="group rounded-3xl border border-border/50 bg-background/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 sm:p-8 sm:col-span-2 xl:col-span-1">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <RefreshCcw className="w-6 h-6 text-primary" />
               </div>
@@ -110,21 +112,21 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="w-full py-24">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl space-y-12">
+      <section className="w-full px-4 py-20 sm:px-6 lg:px-8 md:py-24">
+        <div className="mx-auto w-full max-w-3xl space-y-10 md:space-y-12">
           <div className="flex flex-col items-center text-center space-y-4">
             <HelpCircle className="w-10 h-10 text-primary/40" />
-            <h2 className="text-3xl font-bold tracking-tight">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Got Questions?
             </h2>
           </div>
 
-          <div className="p-2 rounded-[2rem] bg-secondary/20 border border-border/40 backdrop-blur-sm">
+          <div className="rounded-[2rem] border border-border/40 bg-secondary/20 p-2 backdrop-blur-sm">
             <Accordion
               type="single"
               collapsible
               defaultValue="shipping"
-              className="w-full px-6"
+              className="w-full px-4 sm:px-6"
             >
               <AccordionItem
                 value="shipping"

@@ -3,27 +3,29 @@ import { Input } from "../ui/input";
 
 export default function NewsLetter() {
   return (
-    <section className="py-10 px-6">
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold uppercase">NewsLetter</h1>
-        <p className="text-center max-w-md text-muted-foreground">
-          Subscribe to our newsletter to get updates on our latest offers, you
-          can unsubscribe at any time as described in Privacy Policy.
+    <section className="px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center rounded-[2rem] border border-border/40 bg-secondary/20 px-5 py-10 text-center shadow-sm sm:px-8 sm:py-12">
+        <h1 className="text-3xl font-bold uppercase sm:text-4xl">NewsLetter</h1>
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          Subscribe to our newsletter to get updates on our latest offers. You
+          can unsubscribe at any time as described in our Privacy Policy.
         </p>
-      </div>
 
-      <div className="mt-5">
-        <form
-          action=""
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto"
-        >
-          <Input
-            type="email"
-            placeholder="Enter Your Email"
-            className="w-full sm:w-auto sm:flex-1"
-          />
-          <Button className="w-full sm:w-auto">Subscribe</Button>
-        </form>
+        <div className="mt-6 w-full">
+          <form
+            action=""
+            className="mx-auto flex w-full max-w-2xl flex-col items-stretch justify-center gap-3 sm:flex-row"
+          >
+            <Input
+              type="email"
+              placeholder="Enter Your Email"
+              className="h-12 w-full rounded-full bg-background"
+            />
+            <Button className="h-12 w-full rounded-full px-6 sm:w-auto">
+              Subscribe
+            </Button>
+          </form>
+        </div>
       </div>
     </section>
   );

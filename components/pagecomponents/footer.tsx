@@ -4,10 +4,10 @@ import { Separator } from "../ui/separator";
 export default function Footer() {
   return (
     <footer className="w-full pt-20 pb-12 bg-background/60 backdrop-blur-xl border-t border-border/40">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 pb-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-12">
           {/* Brand Section */}
-          <div className="md:col-span-5 space-y-6">
+          <div className="space-y-6">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-xl">
@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
 
           {/* Links Sections */}
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             <div className="space-y-4">
               <h2 className="text-sm font-bold uppercase tracking-widest text-primary/80">
                 Company
@@ -87,13 +87,13 @@ export default function Footer() {
 
         <Separator className="bg-border/40" />
 
-        <div className="pt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="flex flex-col sm:flex-row gap-8 sm:items-center">
+        <div className="grid grid-cols-1 gap-8 pt-12 md:grid-cols-2 md:items-center">
+          <div className="flex flex-col gap-8 sm:flex-row sm:flex-wrap sm:items-start">
             <div className="space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/95">
                 Follow Us
               </h3>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 {[
                   {
                     name: "facebook",
@@ -125,7 +125,7 @@ export default function Footer() {
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/95">
                 Payment Methods
               </h3>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 {[
                   {
                     name: "mastercard",
@@ -152,7 +152,7 @@ export default function Footer() {
           </div>
 
           <div className="md:text-right">
-            <p className="text-sm text-muted-foreground/60">
+            <p className="max-w-sm text-sm text-muted-foreground/60 md:ml-auto">
               &copy; 2026 Next Ecommerce. Designed for the modern shopper.
             </p>
           </div>

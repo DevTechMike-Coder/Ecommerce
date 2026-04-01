@@ -50,12 +50,16 @@ export default function SignIn() {
   };
 
   return (
-    <main className="pt-10 md:pt-32 pb-20 px-4">
-      <div className="flex items-center justify-center">
+    <main className="flex min-h-[calc(100svh-10rem)] items-center justify-center px-4 py-10 sm:min-h-[calc(100svh-9rem)] sm:px-6">
+      <div className="flex w-full items-center justify-center">
         <Card className="w-full max-w-md border-border/50 shadow-xl overflow-hidden rounded-[2rem]">
           <CardHeader className="space-y-1 pt-8">
-            <CardTitle className="text-3xl font-extrabold tracking-tight uppercase">Sign In</CardTitle>
-            <CardDescription className="text-muted-foreground">Access your account to continue shopping</CardDescription>
+            <CardTitle className="text-2xl font-extrabold tracking-tight uppercase sm:text-3xl">
+              Sign In
+            </CardTitle>
+            <CardDescription className="text-sm text-muted-foreground sm:text-base">
+              Access your account to continue shopping
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 pb-8">
             <form className="space-y-4" onSubmit={handleSignIn}>
@@ -87,7 +91,7 @@ export default function SignIn() {
                 />
               </div>
 
-              <Button type="submit" disabled={loading} className="w-full rounded-xl py-6 text-lg font-bold shadow-lg hover:scale-[1.02] transition-transform">
+              <Button type="submit" disabled={loading} className="w-full rounded-xl py-6 text-base font-bold shadow-lg transition-transform hover:scale-[1.02] sm:text-lg">
                 {loading ? <Loader2 className="animate-spin" /> : "Sign In"}
               </Button>
 

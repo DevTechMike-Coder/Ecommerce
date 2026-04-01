@@ -61,10 +61,10 @@ export default function ProductPage() {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-50/30 pb-20 px-4 md:px-10">
+    <main className="min-h-screen bg-neutral-50/30 px-4 pb-20 sm:px-6 lg:px-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-10">
         <div className="space-y-1">
-          <h1 className="text-4xl uppercase font-black tracking-tighter text-neutral-900">
+          <h1 className="text-3xl font-black uppercase tracking-tighter text-neutral-900 sm:text-4xl">
             Inventory
           </h1>
           <p className="text-neutral-500 font-medium">
@@ -72,17 +72,156 @@ export default function ProductPage() {
           </p>
         </div>
 
-        <Link href="/admin/product/addProduct">
-          <Button className="flex items-center gap-3 rounded-2xl px-8 py-6 h-auto bg-neutral-900 hover:bg-neutral-800 text-white shadow-xl shadow-black/10 transition-all hover:-translate-y-1">
+        <Button asChild className="flex h-auto w-full items-center gap-3 rounded-2xl bg-neutral-900 px-6 py-5 text-white shadow-xl shadow-black/10 transition-all hover:-translate-y-1 hover:bg-neutral-800 sm:w-auto sm:px-8 sm:py-6">
+          <Link href="/admin/product/addProduct">
             <Plus className="w-5 h-5" />
             <span className="font-bold uppercase tracking-wider text-sm">
               Add New Product
             </span>
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
-      <div className="bg-white rounded-[2.5rem] border border-neutral-100 shadow-2xl shadow-neutral-200/50 overflow-hidden overflow-x-auto">
+      <div className="space-y-4 lg:hidden">
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-[2rem] border border-neutral-100 bg-white p-5 shadow-lg shadow-neutral-200/40"
+            >
+              <div className="flex items-center gap-4">
+                <Skeleton className="h-16 w-16 rounded-2xl" />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <Skeleton className="h-4 w-32 rounded" />
+                  <Skeleton className="h-3 w-20 rounded" />
+                </div>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <Skeleton className="h-16 rounded-2xl" />
+                <Skeleton className="h-16 rounded-2xl" />
+                <Skeleton className="h-16 rounded-2xl" />
+                <Skeleton className="h-16 rounded-2xl" />
+              </div>
+            </div>
+          ))
+        ) : products.length === 0 ? (
+          <Alert className="rounded-3xl border-2 border-dashed bg-neutral-50/50">
+            <AlertCircle className="h-5 w-5 text-neutral-400" />
+            <AlertTitle className="font-bold uppercase tracking-tight text-neutral-900">
+              No Products Found
+            </AlertTitle>
+            <AlertDescription className="text-neutral-500">
+              Your inventory is currently empty. Click &quot;Add New Product&quot; to get started.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          products.map((product) => (
+            <article
+              key={product.id}
+              className="rounded-[2rem] border border-neutral-100 bg-white p-5 shadow-lg shadow-neutral-200/40"
+            >
+              <div className="flex items-start gap-4">
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-neutral-100 bg-neutral-100">
+                  {product.images?.[0] ? (
+                    <Image
+                      src={product.images[0]}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <Package className="text-neutral-300" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="min-w-0 flex-1 space-y-2">
+                  <p className="break-words text-base font-bold text-neutral-900">
+                    {product.name}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-neutral-600">
+                      {product.category.name}
+                    </span>
+                    {product.collectionTag !== "REGULAR" && (
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-black uppercase tracking-tighter text-primary">
+                        {product.collectionTag}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-2xl bg-neutral-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">
+                    Status
+                  </p>
+                  <div className="mt-2">
+                    {product.stock > 0 ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-[10px] font-black uppercase text-green-600">
+                        Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-[10px] font-black uppercase text-red-600">
+                        Out of Stock
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-neutral-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">
+                    Price
+                  </p>
+                  <p className="mt-2 text-base font-black text-neutral-900">
+                    ${product.price}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-neutral-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">
+                    Stock
+                  </p>
+                  <p className="mt-2 text-sm font-bold text-neutral-600">
+                    {product.stock} units
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-neutral-50 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">
+                    Category
+                  </p>
+                  <p className="mt-2 text-sm font-bold text-neutral-600">
+                    {product.category.name}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 flex gap-3">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full flex-1 rounded-2xl border-neutral-200 transition-colors hover:bg-neutral-900 hover:text-white"
+                >
+                  <Link href={`/admin/product/editProduct/${product.id}`}>
+                    <Pencil className="w-4 h-4" />
+                    Edit
+                  </Link>
+                </Button>
+                <Button
+                  onClick={() => deleteProduct(product.id)}
+                  variant="outline"
+                  className="flex-1 rounded-2xl border-neutral-200 transition-colors hover:border-red-500 hover:bg-red-500 hover:text-white"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Delete
+                </Button>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
+      <div className="hidden overflow-hidden overflow-x-auto rounded-[2.5rem] border border-neutral-100 bg-white shadow-2xl shadow-neutral-200/50 lg:block">
         <table className="w-full text-left border-collapse min-w-[800px]">
           <thead>
             <tr className="bg-neutral-50/50 border-b border-neutral-100">
@@ -207,15 +346,16 @@ export default function ProductPage() {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-3">
-                      <Link href={`/admin/product/editProduct/${product.id}`}>
-                        <Button
-                          size="icon"
-                          variant="outline"
-                          className="rounded-xl border-neutral-200 hover:bg-neutral-900 hover:text-white transition-colors"
-                        >
+                      <Button
+                        asChild
+                        size="icon"
+                        variant="outline"
+                        className="rounded-xl border-neutral-200 transition-colors hover:bg-neutral-900 hover:text-white"
+                      >
+                        <Link href={`/admin/product/editProduct/${product.id}`}>
                           <Pencil className="w-4 h-4" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                       <Button
                         size="icon"
                         onClick={() => deleteProduct(product.id)}

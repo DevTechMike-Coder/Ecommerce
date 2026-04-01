@@ -55,12 +55,12 @@ export default function LatestCollection() {
   }, []);
 
   return (
-    <section className="py-24 px-4 md:px-10 max-w-7xl mx-auto">
+    <section className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 md:py-24">
       <div className="flex flex-col items-center justify-center text-center space-y-4 mb-16">
         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary bg-primary/5 px-4 py-2 rounded-full">
           New Arrivals
         </h2>
-        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-neutral-900">
+        <h1 className="text-4xl font-black uppercase tracking-tighter text-neutral-900 sm:text-5xl md:text-6xl">
           Latest Collection
         </h1>
         <p className="text-sm md:text-base text-neutral-500 font-medium max-w-lg">
@@ -69,7 +69,7 @@ export default function LatestCollection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 gap-6 min-[560px]:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         {loading
           ? Array.from({ length: displayLimit }).map((_, i) => (
               <div key={i} className="flex flex-col gap-4">
@@ -96,12 +96,13 @@ export default function LatestCollection() {
 
 
       <div className="mt-20 flex justify-center">
-        <button className="px-10 py-5 rounded-full border-2 border-neutral-900 text-neutral-900 font-black uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-all">
-          <Link href="/nextecommerce/collection" className="flex items-center gap-4">
-            View All Products
-            <div className="w-2 h-2 rounded-full bg-current transition-transform group-hover:scale-150" />
-          </Link>
-        </button>
+        <Link
+          href="/nextecommerce/collection"
+          className="flex w-full max-w-sm items-center justify-center gap-4 rounded-full border-2 border-neutral-900 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.2em] text-neutral-900 transition-all hover:bg-neutral-900 hover:text-white sm:w-auto sm:max-w-none sm:px-10 sm:py-5"
+        >
+          View All Products
+          <div className="h-2 w-2 rounded-full bg-current" />
+        </Link>
       </div>
     </section>
   );

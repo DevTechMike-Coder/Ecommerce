@@ -20,7 +20,7 @@ export default function ShopClientWrapper({
   const [isAppReady, setIsAppReady] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col overflow-x-clip">
       <AnimatePresence mode="wait">
         {!isAppReady ? (
           <FlatlineReveal
@@ -34,11 +34,11 @@ export default function ShopClientWrapper({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col min-h-screen"
+            className="flex min-h-screen flex-col overflow-x-clip"
           >
             <ScrollIndicator />
             {navbar}
-            <main className="flex-1 pt-20 px-4 md:px-6 lg:px-8 container mx-auto">
+            <main className="flex-1 w-full pt-16 sm:pt-20">
               <PageTransition>{children}</PageTransition>
             </main>
             {footer}

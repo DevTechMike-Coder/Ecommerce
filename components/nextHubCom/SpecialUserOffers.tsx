@@ -1,6 +1,6 @@
 export default function SpecialUserOffers() {
   return (
-    <section className="flex flex-col gap-10 py-16 px-6 md:px-10 bg-neutral-50/50">
+    <section className="flex flex-col gap-10 bg-neutral-50/50 px-4 py-16 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center justify-center text-center space-y-3">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tighter uppercase bg-linear-to-r from-neutral-900 via-neutral-700 to-neutral-900 bg-clip-text text-transparent">
           Special User Offers
@@ -11,9 +11,9 @@ export default function SpecialUserOffers() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto w-full">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
         {/* NextHub Silver */}
-        <div className="group relative border border-slate-200 p-8 rounded-3xl bg-white/70 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col justify-between overflow-hidden">
+        <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200 bg-white/70 p-6 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] sm:p-8">
           <div className="absolute top-0 right-0 w-24 h-24 bg-slate-100 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-150 opacity-50" />
 
           <div className="relative space-y-6">
@@ -28,7 +28,7 @@ export default function SpecialUserOffers() {
             </div>
 
             <div className="pt-4 border-t border-slate-100">
-              <p className="text-5xl font-black text-slate-900 tracking-tighter">
+              <p className="text-4xl font-black tracking-tighter text-slate-900 sm:text-5xl">
                 $100
                 <span className="text-sm font-semibold text-slate-400 ml-1 tracking-wide">
                   / 2 Month
@@ -45,7 +45,7 @@ export default function SpecialUserOffers() {
         </div>
 
         {/* NextHub Gold */}
-        <div className="group relative border-2 border-amber-200 p-8 rounded-3xl bg-white transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(251,191,36,0.1)] flex flex-col justify-between overflow-hidden ring-4 ring-amber-50">
+        <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-amber-200 bg-white p-6 ring-4 ring-amber-50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(251,191,36,0.1)] sm:p-8">
           <div className="absolute top-0 right-0 bg-amber-400 text-white text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl tracking-widest z-10">
             Most Popular
           </div>
@@ -63,7 +63,7 @@ export default function SpecialUserOffers() {
             </div>
 
             <div className="pt-4 border-t border-amber-100">
-              <p className="text-5xl font-black text-amber-600 tracking-tighter">
+              <p className="text-4xl font-black tracking-tighter text-amber-600 sm:text-5xl">
                 $100
                 <span className="text-sm font-semibold text-amber-400 ml-1 tracking-wide">
                   / 5 Month
@@ -80,7 +80,7 @@ export default function SpecialUserOffers() {
         </div>
 
         {/* NextHub Platinum */}
-        <div className="group relative border border-indigo-200 p-8 rounded-3xl bg-white/70 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(79,70,229,0.08)] flex flex-col justify-between overflow-hidden">
+        <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-indigo-200 bg-white/70 p-6 backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(79,70,229,0.08)] sm:p-8">
           <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-150 opacity-50" />
 
           <div className="relative space-y-6">
@@ -95,7 +95,7 @@ export default function SpecialUserOffers() {
             </div>
 
             <div className="pt-4 border-t border-indigo-100">
-              <p className="text-5xl font-black text-indigo-600 tracking-tighter">
+              <p className="text-4xl font-black tracking-tighter text-indigo-600 sm:text-5xl">
                 $100
                 <span className="text-sm font-semibold text-indigo-400 ml-1 tracking-wide">
                   / Annual

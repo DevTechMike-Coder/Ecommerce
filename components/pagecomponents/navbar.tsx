@@ -12,32 +12,34 @@ export default async function NavBar() {
   const user = session?.user;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-6 py-4 backdrop-blur-xl bg-background/60 border-b border-border/40 transition-all duration-300">
-      <div className="flex items-center gap-2">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-xl">N</span>
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-border/40 bg-background/60 backdrop-blur-xl transition-all duration-300">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <Link href="/" className="flex min-w-0 items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary">
+            <span className="text-xl font-bold text-primary-foreground">N</span>
           </div>
-          <h1 className="hidden min-[360px]:block text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70">
-            Next Ecommerce
-          </h1>
+          <div className="min-w-0">
+            <h1 className="truncate text-base font-bold tracking-tight text-foreground sm:text-xl">
+              Next Ecommerce
+            </h1>
+          </div>
         </Link>
-      </div>
 
-      <div className="flex items-center gap-4">
-        {user ? (
-          <UserAccountNav user={user} />
-        ) : (
-          <Button
-            variant="outline"
-            className="rounded-full px-5 border-border/60 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-sm"
-            asChild
-          >
-            <Link href="/nextecommerce/signIn" className="font-medium">
-              Sign In
-            </Link>
-          </Button>
-        )}
+        <div className="shrink-0">
+          {user ? (
+            <UserAccountNav user={user} />
+          ) : (
+            <Button
+              variant="outline"
+              className="rounded-full border-border/60 px-3 text-sm shadow-sm transition-all duration-300 hover:bg-primary hover:text-primary-foreground sm:px-5"
+              asChild
+            >
+              <Link href="/nextecommerce/signIn" className="font-medium">
+                Sign In
+              </Link>
+            </Button>
+          )}
+        </div>
       </div>
     </nav>
   );

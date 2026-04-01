@@ -11,24 +11,28 @@ interface ImageUploadProps {
   value: string[];
 }
 
+type UploadResult = {
+  info?: string | { secure_url?: string };
+};
+
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
   onRemove,
   value
 }) => {
-  const onUpload = (result: any) => {
-    if (result.info && typeof result.info !== "string") {
+  const onUpload = (result: UploadResult) => {
+    if (result.info && typeof result.info !== "string" && result.info.secure_url) {
       onChange(result.info.secure_url);
     }
   };
 
   return ( 
     <div>
-      <div className="mb-4 flex items-center gap-4 flex-wrap">
+      <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
         {value.map((url) => (
-          <div key={url} className="relative w-[200px] h-[200px] rounded-2xl overflow-hidden border-2 border-primary/10 shadow-lg group">
-            <div className="z-10 absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div key={url} className="group relative aspect-square w-full overflow-hidden rounded-2xl border-2 border-primary/10 shadow-lg">
+            <div className="absolute top-2 right-2 z-10 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
               <Button type="button" onClick={() => onRemove(url)} variant="destructive" size="icon" className="rounded-full w-8 h-8">
                 <X className="h-4 w-4" />
               </Button>
@@ -59,11 +63,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               disabled={disabled} 
               variant="outline" 
               onClick={onClick}
-              className="w-full h-32 border-dashed border-2 flex flex-col items-center justify-center gap-2 hover:bg-primary/5 transition-colors rounded-2xl"
+              className="h-32 w-full rounded-2xl border-2 border-dashed transition-colors hover:bg-primary/5 sm:h-36 flex flex-col items-center justify-center gap-2"
             >
               <ImagePlus className="h-8 w-8 text-primary" />
               <span className="font-semibold">Upload Product Images</span>
-              <span className="text-xs text-muted-foreground uppercase tracking-widest">Recommended: 1080x1080px</span>
+              <span className="text-center text-xs uppercase tracking-widest text-muted-foreground">
+                Recommended: 1080x1080px
+              </span>
             </Button>
           );
         }}
