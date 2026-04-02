@@ -14,16 +14,17 @@ import {
   Shield,
   Loader2,
   AlertCircle,
-  ExternalLink,
   Clock,
   CheckCircle2,
   XCircle,
   Truck,
+  Trash2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -61,6 +62,10 @@ export default function ProfilePage() {
   >("overview");
   const [orders, setOrders] = useState<Order[]>([]);
   const [isOrdersLoading, setIsOrdersLoading] = useState(false);
+  const [orderAction, setOrderAction] = useState<{
+    id: string;
+    type: "cancel" | "delete";
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -87,6 +92,81 @@ export default function ProfilePage() {
       console.error(err);
     } finally {
       setIsOrdersLoading(false);
+    }
+  };
+
+  const canCancelOrder = (status: string) => {
+    const normalizedStatus = status.toUpperCase();
+
+    return normalizedStatus === "PENDING" || normalizedStatus === "PENDING_PAYMENT";
+  };
+
+  const canDeleteOrder = (status: string) => {
+    const normalizedStatus = status.toUpperCase();
+
+    return normalizedStatus === "CANCELLED" || normalizedStatus === "PENDING_PAYMENT";
+  };
+
+  const handleOrderAction = async (
+    orderId: string,
+    action: "cancel" | "delete"
+  ) => {
+    const confirmationMessage =
+      action === "cancel"
+        ? "Cancel this order? Reserved stock will be released if it was already held for delivery."
+        : "Delete this order from your history? This cannot be undone.";
+
+    if (!window.confirm(confirmationMessage)) {
+      return;
+    }
+
+    setOrderAction({
+      id: orderId,
+      type: action,
+    });
+
+    try {
+      const response = await fetch(`/api/user/orders/${orderId}`, {
+        method: action === "cancel" ? "PATCH" : "DELETE",
+      });
+      const data = action === "delete" ? null : await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error ||
+            (action === "cancel"
+              ? "Unable to cancel the order."
+              : "Unable to delete the order.")
+        );
+      }
+
+      if (action === "delete") {
+        setOrders((currentOrders) =>
+          currentOrders.filter((order) => order.id !== orderId)
+        );
+        toast.success("Order deleted.");
+        return;
+      }
+
+      setOrders((currentOrders) =>
+        currentOrders.map((order) =>
+          order.id === orderId
+            ? {
+                ...order,
+                status: data.status,
+              }
+            : order
+        )
+      );
+      toast.success("Order cancelled.");
+    } catch (actionError) {
+      toast.error(
+        actionError instanceof Error
+          ? actionError.message
+          : "Something went wrong while updating the order."
+      );
+    } finally {
+      setOrderAction(null);
     }
   };
 
@@ -458,15 +538,52 @@ export default function ProfilePage() {
                             ))}
                           </div>
 
-                          <div className="mt-6 pt-6 border-t border-border/40 flex justify-end">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="rounded-full text-xs font-bold gap-2"
-                            >
-                              Order Details
-                              <ExternalLink className="h-3 w-3" />
-                            </Button>
+                          <div className="mt-6 flex flex-col gap-3 border-t border-border/40 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                            <p className="text-xs leading-relaxed text-muted-foreground">
+                              {canDeleteOrder(order.status)
+                                ? "This order can be removed from your history."
+                                : canCancelOrder(order.status)
+                                ? "This order is still pending, so you can cancel it from here."
+                                : "Orders that are paid, shipped, or delivered cannot be cancelled here."}
+                            </p>
+
+                            <div className="flex flex-wrap justify-end gap-2">
+                              {canCancelOrder(order.status) && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="rounded-full text-xs font-bold"
+                                  disabled={orderAction?.id === order.id}
+                                  onClick={() => handleOrderAction(order.id, "cancel")}
+                                >
+                                  {orderAction?.id === order.id &&
+                                  orderAction.type === "cancel" ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                  ) : (
+                                    <XCircle className="h-3.5 w-3.5" />
+                                  )}
+                                  Cancel Order
+                                </Button>
+                              )}
+
+                              {canDeleteOrder(order.status) && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="rounded-full border-destructive/30 text-xs font-bold text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                  disabled={orderAction?.id === order.id}
+                                  onClick={() => handleOrderAction(order.id, "delete")}
+                                >
+                                  {orderAction?.id === order.id &&
+                                  orderAction.type === "delete" ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                  ) : (
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                  )}
+                                  Delete Order
+                                </Button>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
