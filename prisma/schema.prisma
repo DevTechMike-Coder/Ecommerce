@@ -92,6 +92,17 @@ model Order {
   id          String      @id @default(cuid())
   userId      String
   status      String      @default("PENDING")
+  paymentMethod String    @default("PAYMENT_ON_DELIVERY")
+  paymentReference String?
+  customerName String?
+  customerEmail String?
+  customerPhone String?
+  addressLine1 String?
+  addressLine2 String?
+  city        String?
+  state       String?
+  postalCode  String?
+  country     String?
   totalAmount Decimal     @db.Decimal(10, 2)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt

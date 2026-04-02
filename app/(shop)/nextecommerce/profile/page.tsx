@@ -96,6 +96,9 @@ export default function ProfilePage() {
         return "bg-green-500/10 text-green-500 border-green-500/20";
       case "SHIPPED":
         return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+      case "PAYMENT_PROCESSING":
+        return "bg-sky-500/10 text-sky-500 border-sky-500/20";
+      case "PENDING_PAYMENT":
       case "PENDING":
         return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
       case "CANCELLED":
@@ -113,6 +116,9 @@ export default function ProfilePage() {
         return <CheckCircle2 className="w-3.5 h-3.5" />;
       case "SHIPPED":
         return <Truck className="w-3.5 h-3.5" />;
+      case "PAYMENT_PROCESSING":
+        return <Loader2 className="w-3.5 h-3.5" />;
+      case "PENDING_PAYMENT":
       case "PENDING":
         return <Clock className="w-3.5 h-3.5" />;
       case "CANCELLED":

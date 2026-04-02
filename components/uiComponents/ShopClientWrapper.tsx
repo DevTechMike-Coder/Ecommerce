@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import ScrollIndicator from "@/components/uiComponents/ScrollIndicator";
 import PageTransition from "@/components/uiComponents/PageTransition";
@@ -16,8 +16,11 @@ export default function ShopClientWrapper({
   navbar,
   footer,
 }: ShopClientWrapperProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   return (
     <motion.div
