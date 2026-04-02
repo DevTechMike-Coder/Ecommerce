@@ -3,6 +3,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { UserAccountNav } from "./UserAccountNav";
+import {ShoppingBag} from "lucide-react"
 
 export default async function NavBar() {
   const session = await auth.api.getSession({
@@ -25,20 +26,27 @@ export default async function NavBar() {
           </div>
         </Link>
 
-        <div className="shrink-0">
-          {user ? (
-            <UserAccountNav user={user} />
-          ) : (
-            <Button
-              variant="outline"
-              className="rounded-full border-border/60 px-3 text-sm shadow-sm transition-all duration-300 hover:bg-primary hover:text-primary-foreground sm:px-5"
-              asChild
-            >
-              <Link href="/nextecommerce/signIn" className="font-medium">
-                Sign In
-              </Link>
-            </Button>
-          )}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center border border-gray-200 rounded-full w-10 h-10">
+            <Link href={user ? "/nextecommerce/cart" : "/nextecommerce/signIn"}>
+              <ShoppingBag size={20} className="text-gray-600" />
+            </Link>
+          </div>
+          <div className="shrink-0">
+            {user ? (
+              <UserAccountNav user={user} />
+            ) : (
+              <Button
+                variant="outline"
+                className="rounded-full border-border/60 px-3 text-sm shadow-sm transition-all duration-300 hover:bg-primary hover:text-primary-foreground sm:px-5"
+                asChild
+              >
+                <Link href="/nextecommerce/signIn" className="font-medium">
+                  Sign In
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </nav>
