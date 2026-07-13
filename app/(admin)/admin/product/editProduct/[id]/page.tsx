@@ -351,19 +351,18 @@ export default function EditProductPage({ params }: EditProductPageProps) {
                 <label className="block text-sm font-semibold text-neutral-600 uppercase tracking-wider">
                   Add New Category
                 </label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
                   <input
-                    className="flex-1 p-3 bg-neutral-50 rounded-xl border border-transparent focus:border-primary/20 outline-none text-sm"
+                    className="h-12 min-w-0 px-4 bg-neutral-50 rounded-xl border border-transparent focus:border-primary/20 outline-none text-sm"
                     placeholder="Category name"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
                   />
                   <Button
                     type="button"
-                    size="sm"
                     onClick={onAddCategory}
                     disabled={addingCategory}
-                    className="rounded-xl px-4"
+                    className="h-12 shrink-0 rounded-xl px-5"
                   >
                     {addingCategory ? "..." : "Add"}
                   </Button>

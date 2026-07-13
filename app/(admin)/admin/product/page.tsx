@@ -52,7 +52,8 @@ export default function ProductPage() {
         setProducts(products.filter((p) => p.id !== id));
         toast.success("Product deleted successfully");
       } else {
-        toast.error("Failed to delete product");
+        const data = await res.json().catch(() => null);
+        toast.error(data?.error ?? "Failed to delete product");
       }
     } catch (error) {
       console.error(error);
