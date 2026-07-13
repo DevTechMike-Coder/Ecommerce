@@ -67,12 +67,68 @@ export default function ProfilePage() {
     type: "cancel" | "delete";
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [nameInput, setNameInput] = useState("");
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   useEffect(() => {
     if (!isSessionPending && !session) {
       router.push("/nextecommerce/signIn");
     }
   }, [session, isSessionPending, router]);
+
+  useEffect(() => {
+    if (session?.user?.name) {
+      setNameInput(session.user.name);
+    }
+  }, [session?.user?.name]);
+
+  const handleSaveProfile = async () => {
+    const trimmed = nameInput.trim();
+    if (!trimmed) {
+      toast.error("Name can't be empty");
+      return;
+    }
+    setIsSavingProfile(true);
+    try {
+      const { error: updateError } = await authClient.updateUser({ name: trimmed });
+      if (updateError) {
+        toast.error(updateError.message ?? "Failed to update profile");
+      } else {
+        toast.success("Profile updated");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong updating your profile");
+    } finally {
+      setIsSavingProfile(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (
+      !confirm(
+        "This will permanently delete your account and order history. This cannot be undone. Continue?"
+      )
+    ) {
+      return;
+    }
+    setIsDeletingAccount(true);
+    try {
+      const { error: deleteError } = await authClient.deleteUser();
+      if (deleteError) {
+        toast.error(deleteError.message ?? "Failed to delete account");
+        setIsDeletingAccount(false);
+        return;
+      }
+      toast.success("Account deleted");
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong deleting your account");
+      setIsDeletingAccount(false);
+    }
+  };
 
   useEffect(() => {
     if (session?.user && activeTab === "orders") {
@@ -618,7 +674,8 @@ export default function ProfilePage() {
                           <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
                           <input
                             type="text"
-                            defaultValue={user.name}
+                            value={nameInput}
+                            onChange={(e) => setNameInput(e.target.value)}
                             className="w-full rounded-2xl border border-border/50 bg-background py-3 pl-12 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
                             placeholder="Enter your name"
                           />
@@ -645,14 +702,19 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="pt-4 flex flex-col gap-3 sm:flex-row">
-                      <Button className="rounded-full px-8 font-bold">
-                        Save Changes
-                      </Button>
                       <Button
-                        variant="outline"
-                        className="rounded-full px-8 font-bold text-destructive hover:bg-destructive/10 hover:text-destructive border-border/50"
+                        onClick={handleSaveProfile}
+                        disabled={isSavingProfile || nameInput.trim() === user.name}
+                        className="rounded-full px-8 font-bold"
                       >
-                        Deactivate Account
+                        {isSavingProfile ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Saving...
+                          </>
+                        ) : (
+                          "Save Changes"
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -692,9 +754,18 @@ export default function ProfilePage() {
                     <div className="sm:shrink-0">
                       <Button
                         variant="destructive"
+                        onClick={handleDeleteAccount}
+                        disabled={isDeletingAccount}
                         className="w-full rounded-full px-6 font-bold shadow-lg shadow-destructive/15 sm:w-auto sm:px-8"
                       >
-                        Delete Account Permanently
+                        {isDeletingAccount ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Deleting...
+                          </>
+                        ) : (
+                          "Delete Account Permanently"
+                        )}
                       </Button>
                     </div>
                   </div>
