@@ -79,6 +79,12 @@ export default function SignIn() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" title="password" className="text-sm font-semibold tracking-wide uppercase">Password</Label>
+                  <Link
+                    href="/nextecommerce/forgotPassword"
+                    className="text-xs font-semibold text-primary underline decoration-2 underline-offset-4 transition-all hover:opacity-80"
+                  >
+                    Forgot password?
+                  </Link>
                 </div>
                 <Input 
                   id="password"
