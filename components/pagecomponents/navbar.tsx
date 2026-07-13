@@ -3,7 +3,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { UserAccountNav } from "./UserAccountNav";
-import {ShoppingBag} from "lucide-react"
+import { ShoppingBag, Heart } from "lucide-react";
 
 export default async function NavBar() {
   const session = await auth.api.getSession({
@@ -26,12 +26,21 @@ export default async function NavBar() {
           </div>
         </Link>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center border border-gray-200 rounded-full w-10 h-10">
-            <Link href={user ? "/nextecommerce/cart" : "/nextecommerce/signIn"}>
-              <ShoppingBag size={20} className="text-gray-600" />
+        <div className="flex items-center gap-3">
+          {/* Wishlist Link */}
+          <div className="flex items-center justify-center border border-border/60 hover:bg-accent rounded-full w-10 h-10 transition-colors">
+            <Link href={user ? "/nextecommerce/wishlist" : "/nextecommerce/signIn"} title="My Wishlist">
+              <Heart size={20} className="text-foreground/80 hover:text-red-500 hover:fill-red-500 transition-colors" />
             </Link>
           </div>
+
+          {/* Cart Link */}
+          <div className="flex items-center justify-center border border-border/60 hover:bg-accent rounded-full w-10 h-10 transition-colors">
+            <Link href={user ? "/nextecommerce/cart" : "/nextecommerce/signIn"} title="Shopping Cart">
+              <ShoppingBag size={20} className="text-foreground/80" />
+            </Link>
+          </div>
+
           <div className="shrink-0">
             {user ? (
               <UserAccountNav user={user} />

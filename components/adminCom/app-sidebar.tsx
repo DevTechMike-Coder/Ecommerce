@@ -37,10 +37,10 @@ export function AppSidebar() {
       collapsible="icon"
       className="border-r border-border/40 bg-background/50 backdrop-blur-xl transition-[width] duration-300"
     >
-      <SidebarHeader className="p-4 pt-6 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:pt-4 transition-all duration-300 overflow-hidden">
+      <SidebarHeader className="p-4 pt-6 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:pt-4 group-data-[collapsible=icon]:pb-2 transition-all duration-300 overflow-hidden">
         <Link
           href="/admin"
-          className="flex items-center gap-3 px-2 group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center group transition-all duration-300"
+          className="flex items-center gap-3 px-2 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-11 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0 group-data-[collapsible=icon]:px-0 group transition-all duration-300"
         >
           <div className="shrink-0 w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
             <span className="text-primary-foreground font-bold text-xl tracking-tighter">

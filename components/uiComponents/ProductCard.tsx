@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import { useWishlist } from "@/hooks/use-wishlist";
 
 interface ProductCardProps {
   id: string;
@@ -29,6 +30,51 @@ export default function ProductCard({
   const cart = useCart();
   const router = useRouter();
   const { data: session } = authClient.useSession();
+  const wishlist = useWishlist();
+  const isWishlisted = wishlist.isInWishlist(id);
+
+  const onToggleWishlist = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!session) {
+      toast.error("Please sign in first", {
+        description: "You need to be logged in to add items to your wishlist.",
+      });
+      
+      const callbackUrl = encodeURIComponent(window.location.href);
+      router.push(`/nextecommerce/signIn?callbackURL=${callbackUrl}`);
+      return;
+    }
+
+    try {
+      if (isWishlisted) {
+        await wishlist.removeItem(id, true);
+        toast.success("Removed from wishlist", {
+          description: `${name} has been removed from your wishlist.`,
+        });
+      } else {
+        await wishlist.addItem(
+          {
+            id,
+            name,
+            price,
+            image,
+            category,
+            tag,
+          },
+          true
+        );
+        toast.success("Added to wishlist", {
+          description: `${name} has been added to your wishlist.`,
+          icon: <Heart className="h-4 w-4 text-red-500 fill-red-500" />,
+        });
+      }
+    } catch (error) {
+      console.error("Wishlist toggle error:", error);
+      toast.error("Something went wrong updating your wishlist.");
+    }
+  };
 
   const onAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -94,12 +140,15 @@ export default function ProductCard({
         )}
 
         <button
+          onClick={onToggleWishlist}
           aria-label="Add to favorites"
-          className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/90 text-muted-foreground opacity-100 backdrop-blur-md transition-all hover:scale-110 hover:text-red-500 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100"
+          className={`absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/95 shadow-sm backdrop-blur-md transition-all hover:scale-110 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 ${
+            isWishlisted ? "text-red-500 sm:opacity-100 sm:translate-y-0" : "text-muted-foreground hover:text-red-500"
+          }`}
         >
           <Heart
-            className="w-5 h-5"
-            fill={isHovered ? "currentColor" : "none"}
+            className="w-5 h-5 transition-transform active:scale-95 duration-200"
+            fill={isWishlisted ? "currentColor" : "none"}
           />
         </button>
 

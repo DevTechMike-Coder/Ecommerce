@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import ScrollIndicator from "@/components/uiComponents/ScrollIndicator";
 import PageTransition from "@/components/uiComponents/PageTransition";
 
+import { useEffect } from "react";
+import { useWishlist } from "@/hooks/use-wishlist";
+import { authClient } from "@/lib/auth-client";
+
 interface ShopClientWrapperProps {
   children: React.ReactNode;
   navbar: React.ReactNode;
@@ -21,6 +25,17 @@ export default function ShopClientWrapper({
     () => true,
     () => false
   );
+
+  const wishlist = useWishlist();
+  const { data: session } = authClient.useSession();
+
+  useEffect(() => {
+    if (session) {
+      wishlist.fetchWishlist();
+    } else {
+      wishlist.clearWishlist();
+    }
+  }, [session, wishlist.fetchWishlist, wishlist.clearWishlist]);
 
   return (
     <motion.div
