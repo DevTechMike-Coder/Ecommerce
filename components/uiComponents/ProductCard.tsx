@@ -142,8 +142,8 @@ export default function ProductCard({
         <button
           onClick={onToggleWishlist}
           aria-label="Add to favorites"
-          className={`absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/95 shadow-sm backdrop-blur-md transition-all hover:scale-110 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 ${
-            isWishlisted ? "text-red-500 sm:opacity-100 sm:translate-y-0" : "text-muted-foreground hover:text-red-500"
+          className={`absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-background/95 shadow-sm backdrop-blur-md transition-all hover:scale-110 ${
+            isWishlisted ? "text-red-500" : "text-muted-foreground hover:text-red-500"
           }`}
         >
           <Heart
