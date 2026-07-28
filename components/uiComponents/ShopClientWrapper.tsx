@@ -1,6 +1,5 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import ScrollIndicator from "@/components/uiComponents/ScrollIndicator";
 import PageTransition from "@/components/uiComponents/PageTransition";
@@ -20,12 +19,6 @@ export default function ShopClientWrapper({
   navbar,
   footer,
 }: ShopClientWrapperProps) {
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
-
   const wishlist = useWishlist();
   const { data: session } = authClient.useSession();
 
@@ -45,11 +38,11 @@ export default function ShopClientWrapper({
       className="flex min-h-screen flex-col overflow-x-clip"
     >
       <ScrollIndicator />
-      {mounted ? navbar : <div className="h-16 sm:h-20" />}
+      {navbar}
       <main className="flex-1 w-full pt-16 sm:pt-20">
         <PageTransition>{children}</PageTransition>
       </main>
-      {mounted ? footer : null}
+      {footer}
     </motion.div>
   );
 }
