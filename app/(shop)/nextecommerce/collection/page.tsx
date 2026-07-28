@@ -198,15 +198,6 @@ export default function Collection() {
                 </Select>
               </div>
 
-              {(selectedCategory !== "all" || sortBy !== "newest" || searchQuery !== "") && (
-                <Button 
-                  onClick={clearFilters}
-                  variant="ghost" 
-                  className="h-12 w-12 rounded-2xl p-0 text-neutral-400 hover:text-red-500 hover:bg-red-50 transition-all"
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              )}
             </div>
           </div>
         </div>
