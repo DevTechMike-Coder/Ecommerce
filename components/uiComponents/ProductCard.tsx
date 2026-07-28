@@ -1,11 +1,12 @@
 "use client";
 
-import { Heart, ShoppingBag, Check } from "lucide-react";
+import { Heart, ShoppingBag, Check, Star } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useWishlist } from "@/hooks/use-wishlist";
 
@@ -16,6 +17,8 @@ interface ProductCardProps {
   image?: string;
   category: string;
   tag?: string;
+  rating?: number;
+  reviewCount?: number;
 }
 
 export default function ProductCard({
@@ -25,6 +28,8 @@ export default function ProductCard({
   image,
   category,
   tag,
+  rating = 5.0,
+  reviewCount = 0,
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const cart = useCart();
@@ -125,9 +130,10 @@ export default function ProductCard({
 
   return (
     <div
-      className="group relative flex h-full flex-col rounded-[2.5rem] border border-border bg-card p-3 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)]"
+      className="group relative flex h-full flex-col rounded-[2.5rem] border border-border bg-card p-3 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => router.push(`/nextecommerce/product/${id}`)}
     >
       {/* Image Container */}
       <div className="relative aspect-4/5 rounded-[2rem] overflow-hidden bg-muted mb-6">
@@ -164,19 +170,28 @@ export default function ProductCard({
             <ShoppingBag size={48} strokeWidth={1} />
           </div>
         )}
-
-        {/* Action Overlay */}
-        <div className="absolute inset-0 bg-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          {/* Action icon or Quick View could go here, but for now we're simplifying */}
-        </div>
       </div>
 
       {/* Info */}
       <div className="flex flex-1 flex-col justify-between space-y-4 px-4 pb-4">
-        <div className="space-y-1">
-          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-            {category}
-          </p>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+              {category}
+            </p>
+
+            {/* Rating */}
+            <div className="flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span className="text-xs font-bold text-foreground">
+                {rating > 0 ? rating.toFixed(1) : "New"}
+              </span>
+              {reviewCount > 0 && (
+                <span className="text-[10px] text-muted-foreground">({reviewCount})</span>
+              )}
+            </div>
+          </div>
+
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <h3 className="line-clamp-2 text-base leading-tight font-bold text-foreground transition-colors group-hover:text-primary sm:text-lg">
               {name}

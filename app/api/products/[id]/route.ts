@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth-utils";
 
-// Removed local isAdmin definition
-
 function isPrismaError(error: unknown, code: string) {
   return (
     typeof error === "object" &&
@@ -16,18 +14,56 @@ function isPrismaError(error: unknown, code: string) {
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
+    
+    if (!id) {
+      return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
+    }
+
     const product = await prisma.product.findUnique({
       where: { id },
-      include: { category: true },
+      include: {
+        category: true,
+        reviews: {
+          include: {
+            user: {
+              select: { id: true, name: true, image: true }
+            }
+          },
+          orderBy: { createdAt: "desc" }
+        }
+      },
     });
 
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    return NextResponse.json(product);
+    const reviews = product.reviews || [];
+    const reviewCount = reviews.length;
+    const averageRating = reviewCount > 0
+      ? Number((reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount).toFixed(1))
+      : 0;
+
+    const formattedProduct = {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: Number(product.price),
+      images: product.images,
+      stock: product.stock,
+      categoryId: product.categoryId,
+      collectionTag: product.collectionTag,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+      category: product.category,
+      reviews,
+      averageRating,
+      reviewCount,
+    };
+
+    return NextResponse.json(formattedProduct);
   } catch (error) {
-    console.error("[PRODUCT_GET]", error);
+    console.error("[PRODUCT_GET_ERROR]", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -72,6 +108,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     await prisma.$transaction([
       prisma.wishlistItem.deleteMany({
+        where: {
+          productId: id,
+        },
+      }),
+      prisma.review.deleteMany({
         where: {
           productId: id,
         },

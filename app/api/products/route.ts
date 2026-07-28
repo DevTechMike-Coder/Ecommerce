@@ -7,10 +7,39 @@ import { isAdmin } from "@/lib/auth-utils";
 
 export async function GET() {
   const products = await prisma.product.findMany({
-    include: { category: true },
+    include: {
+      category: true,
+      reviews: {
+        select: { rating: true }
+      }
+    },
     orderBy: { createdAt: "desc" }
   });
-  return NextResponse.json(products);
+
+  const formatted = products.map((p) => {
+    const reviewCount = p.reviews.length;
+    const averageRating = reviewCount > 0
+      ? Number((p.reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount).toFixed(1))
+      : 0;
+
+    return {
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      price: Number(p.price),
+      images: p.images,
+      stock: p.stock,
+      categoryId: p.categoryId,
+      collectionTag: p.collectionTag,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
+      category: p.category,
+      averageRating,
+      reviewCount,
+    };
+  });
+
+  return NextResponse.json(formatted);
 }
 
 export async function POST(request: Request) {

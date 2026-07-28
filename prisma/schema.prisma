@@ -19,6 +19,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   wishlistItems WishlistItem[]
+  reviews       Review[]
 
   @@map("user")
 }
@@ -87,6 +88,7 @@ model Product {
   collectionTag String      @default("REGULAR")
   orderItems    OrderItem[]
   wishlistItems WishlistItem[]
+  reviews       Review[]
   category      Category    @relation(fields: [categoryId], references: [id])
 }
 
@@ -105,6 +107,8 @@ model Order {
   state       String?
   postalCode  String?
   country     String?
+  couponCode     String?
+  discountAmount Decimal? @db.Decimal(10, 2)
   totalAmount Decimal     @db.Decimal(10, 2)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -132,4 +136,34 @@ model WishlistItem {
 
   @@unique([userId, productId])
   @@map("wishlist_item")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      @default(5)
+  comment   String
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("review")
+}
+
+model Coupon {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  discountPercent Int?
+  discountAmount  Decimal?  @db.Decimal(10, 2)
+  minOrderAmount  Decimal?  @db.Decimal(10, 2)
+  maxUses         Int?
+  usedCount       Int       @default(0)
+  expiresAt       DateTime?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("coupon")
 }
